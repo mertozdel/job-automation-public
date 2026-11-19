@@ -1,0 +1,2010 @@
+[
+  {
+    "ats": "greenhouse",
+    "token": "helsing",
+    "name": "Helsing",
+    "regions": [
+      "bayern",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "nebius",
+    "name": "Nebius",
+    "regions": [
+      "amsterdam",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "databricks",
+    "name": "Databricks",
+    "regions": [
+      "amsterdam",
+      "bayern",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "isaraerospace",
+    "name": "Isar Aerospace",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "adyen",
+    "name": "Adyen",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "celonis",
+    "name": "Celonis",
+    "regions": [
+      "amsterdam",
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "parloa",
+    "name": "Parloa",
+    "regions": [
+      "bayern",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "doctolib",
+    "name": "Doctolib",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "hellofresh",
+    "name": "HelloFresh",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "proxima-fusion",
+    "name": "Proxima Fusion",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "imc",
+    "name": "IMC Trading",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "egym",
+    "name": "EGYM",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "xomnia",
+    "name": "Xomnia",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "commercetools",
+    "name": "commercetools",
+    "regions": [
+      "bayern",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "getyourguide",
+    "name": "GetYourGuide",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "flowtraders",
+    "name": "Flow Traders",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "langdock",
+    "name": "Langdock",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "nelly",
+    "name": "Nelly",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "budgetenergie",
+    "name": "Budget Energie",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "cz",
+    "name": "CZ",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "solarisbank",
+    "name": "Solaris",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "enpal",
+    "name": "Enpal",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "mollie",
+    "name": "Mollie",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "n8n",
+    "name": "n8n",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "staffbase",
+    "name": "Staffbase",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "anthropic",
+    "name": "Anthropic",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "catawiki",
+    "name": "Catawiki",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "marvelfusion",
+    "name": "Marvel Fusion",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "scout24",
+    "name": "Scout24",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "tacto",
+    "name": "Tacto",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "funda",
+    "name": "funda",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "aidence",
+    "name": "Aidence",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "forto",
+    "name": "Forto",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "moonfare",
+    "name": "Moonfare",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "openai",
+    "name": "OpenAI",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "raisin",
+    "name": "Raisin",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "upvest",
+    "name": "Upvest",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "dept",
+    "name": "DEPT",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "typeform",
+    "name": "Typeform",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "zenjob",
+    "name": "Zenjob",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "true",
+    "name": "True",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "channable",
+    "name": "Channable",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "sensorfact",
+    "name": "Sensorfact",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "babbel",
+    "name": "Babbel",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "gitlab",
+    "name": "GitLab",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "vay",
+    "name": "Vay",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "datadog",
+    "name": "Datadog",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "polarsteps",
+    "name": "Polarsteps",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "dataiku",
+    "name": "Dataiku",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "elastic",
+    "name": "Elastic",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "konux",
+    "name": "KONUX",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "luminovo",
+    "name": "Luminovo",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "bynder",
+    "name": "Bynder",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "cradlebio",
+    "name": "Cradle",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "lever",
+    "token": "qonto",
+    "name": "Qonto",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "xccelerated",
+    "name": "Xccelerated",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "elevenlabs",
+    "name": "ElevenLabs",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "lever",
+    "token": "mendix",
+    "name": "Mendix",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "prosus",
+    "name": "Prosus",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "bolcom",
+    "name": "bol",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "fastned",
+    "name": "Fastned",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "thoughtworks",
+    "name": "Thoughtworks",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "bunq",
+    "name": "bunq",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "vandebron",
+    "name": "Vandebron",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "nmbrs",
+    "name": "Nmbrs",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "bitvavo",
+    "name": "Bitvavo",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "weaviate",
+    "name": "Weaviate",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "optiverus",
+    "name": "Optiver",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "helloprint",
+    "name": "Helloprint",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "drweng",
+    "name": "DRW",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "jumptrading",
+    "name": "Jump Trading",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "crisp",
+    "name": "Crisp",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "n26",
+    "name": "N26",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "sumup",
+    "name": "SumUp",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "voize",
+    "name": "voize",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "taktile",
+    "name": "Taktile",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "peec",
+    "name": "Peec AI",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "wolt",
+    "name": "Wolt",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "cohere",
+    "name": "Cohere",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "lever",
+    "token": "pipedrive",
+    "name": "Pipedrive",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "knowunity",
+    "name": "Knowunity",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "superchat",
+    "name": "Superchat",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "synthesia",
+    "name": "Synthesia",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "contentful",
+    "name": "Contentful",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "deliveroo",
+    "name": "Deliveroo",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "lever",
+    "token": "researchgate",
+    "name": "ResearchGate",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "vercel",
+    "name": "Vercel",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "bunch",
+    "name": "Bunch",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "rebuy",
+    "name": "reBuy",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "ostrom",
+    "name": "Ostrom",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "datasnipper",
+    "name": "DataSnipper",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "clickhouse",
+    "name": "ClickHouse",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "flexport",
+    "name": "Flexport",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "lever",
+    "token": "insify",
+    "name": "Insify",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "mistral.ai",
+    "name": "Mistral AI",
+    "regions": [
+      "amsterdam",
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "togetherai",
+    "name": "Together AI",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "lever",
+    "token": "yuno",
+    "name": "Yuno",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "airwallex",
+    "name": "Airwallex",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "monumental",
+    "name": "Monumental",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "mytomorrows",
+    "name": "myTomorrows",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "altura",
+    "name": "Altura",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "plumerai",
+    "name": "Plumerai",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "qlub",
+    "name": "qlub",
+    "regions": [
+      "amsterdam",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "attendi",
+    "name": "Attendi",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "motherduck",
+    "name": "MotherDuck",
+    "regions": [
+      "amsterdam",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "awin",
+    "name": "Awin",
+    "regions": [
+      "amsterdam",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "lever",
+    "token": "Coda",
+    "name": "Coda",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "tether",
+    "name": "Tether",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "rentman",
+    "name": "Rentman",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "eightfold",
+    "token": "careers.qualcomm.com|qualcomm.com|pcsx",
+    "name": "Qualcomm",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "eightfold",
+    "token": "explore.jobs.netflix.net|netflix.com|apply",
+    "name": "Netflix",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "prior-labs",
+    "name": "Prior Labs",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "alephalpha",
+    "name": "Aleph Alpha",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "sensmore",
+    "name": "Sensmore",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "iceye",
+    "name": "ICEYE",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "airapps",
+    "name": "Air Apps",
+    "regions": [
+      "berlin",
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "telli",
+    "name": "telli",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "moss",
+    "name": "Moss",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "netbird",
+    "name": "NetBird",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "kombo",
+    "name": "Kombo",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "billie",
+    "name": "Billie",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "stream",
+    "name": "Stream",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "bluefishai",
+    "name": "Bluefish AI",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "smartlyio",
+    "name": "Smartly",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "intercom",
+    "name": "Intercom",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "cresta",
+    "name": "Cresta",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "grover",
+    "name": "Grover",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "personio",
+    "token": "htgf",
+    "name": "HTGF",
+    "regions": [
+      "berlin"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "merantix",
+    "name": "Merantix AI Campus",
+    "regions": [
+      "berlin"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "autonomous-teaming",
+    "name": "Autonomous Teaming",
+    "regions": [
+      "berlin"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "super-ai",
+    "name": "super.AI",
+    "regions": [
+      "berlin"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "powerus",
+    "name": "Powerus",
+    "regions": [
+      "berlin"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "1komma5grad.jobs.personio.com",
+    "name": "1KOMMA5°",
+    "regions": [
+      "berlin"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "liveeo-gmbh.jobs.personio.com",
+    "name": "LiveEO",
+    "regions": [
+      "berlin"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "thermondo.jobs.personio.com",
+    "name": "thermondo",
+    "regions": [
+      "berlin"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "alexander-thamm-gmbh",
+    "name": "Alexander Thamm",
+    "regions": [
+      "bayern",
+      "berlin"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "ashby",
+    "token": "clera",
+    "name": "Clera",
+    "regions": [
+      "bayern",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "autoscout24",
+    "name": "AutoScout24",
+    "regions": [
+      "bayern",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "personio",
+    "token": "perelyn.jobs.personio.com",
+    "name": "Perelyn",
+    "regions": [
+      "bayern",
+      "remote"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "ashby",
+    "token": "uncountable",
+    "name": "Uncountable",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "jetbrains",
+    "name": "JetBrains",
+    "regions": [
+      "bayern",
+      "berlin",
+      "amsterdam",
+      "remote"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "navvis",
+    "name": "NavVis",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "munich-electrification",
+    "name": "Munich Electrification",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "personio",
+    "token": "appliedai",
+    "name": "appliedAI",
+    "regions": [
+      "bayern"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "greenhouse",
+    "token": "flix",
+    "name": "Flix",
+    "regions": [
+      "bayern",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "smartsheet",
+    "name": "Smartsheet",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "kyrall",
+    "name": "Kyrall",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "personio",
+    "token": "intrafind-software-ag.jobs.personio.com",
+    "name": "IntraFind",
+    "regions": [
+      "bayern"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "ottonova",
+    "name": "ottonova",
+    "regions": [
+      "bayern"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "greenhouse",
+    "token": "kinexon",
+    "name": "KINEXON",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "workato",
+    "name": "Workato",
+    "regions": [
+      "bayern",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "manex",
+    "name": "Manex AI",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "intrinsicrobotics",
+    "name": "Intrinsic",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "personio",
+    "token": "nerdware",
+    "name": "nerdware",
+    "regions": [
+      "bayern"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "twaice",
+    "name": "TWAICE",
+    "regions": [
+      "bayern"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "greenhouse",
+    "token": "ionos",
+    "name": "IONOS",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "tide",
+    "name": "Tide",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "zetaglobal",
+    "name": "Zeta Global",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "nice",
+    "name": "NICE",
+    "regions": [
+      "berlin",
+      "remote"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "ubiquiti",
+    "name": "Ubiquiti",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "planetlabs",
+    "name": "Planet Labs",
+    "regions": [
+      "berlin",
+      "amsterdam",
+      "remote"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "sonyinteractiveentertainmentglobal",
+    "name": "Sony Interactive Entertainment",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "flatironhealth",
+    "name": "Flatiron Health",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "dominodatalab",
+    "name": "Domino Data Lab",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "immoscout24",
+    "name": "ImmoScout24",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "gallup",
+    "name": "Gallup",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "mozilla",
+    "name": "Mozilla",
+    "regions": [
+      "remote",
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "grafanalabs",
+    "name": "Grafana Labs",
+    "regions": [
+      "remote",
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "oneleet",
+    "name": "Oneleet",
+    "regions": [
+      "remote",
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "mitratech",
+    "name": "Mitratech",
+    "regions": [
+      "remote"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "camunda",
+    "name": "Camunda",
+    "regions": [
+      "remote",
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "fivetran",
+    "name": "Fivetran",
+    "regions": [
+      "remote",
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "jibe",
+    "token": "jobs.booking.com",
+    "name": "Booking.com",
+    "regions": [
+      "amsterdam"
+    ],
+    "options": {
+      "location": "Amsterdam",
+      "site": "booking"
+    }
+  },
+  {
+    "ats": "sitemap",
+    "token": "https://careers.ing.com/en/sitemap.xml",
+    "name": "ING",
+    "regions": [
+      "amsterdam"
+    ],
+    "options": {
+      "match": "/en/job/(amsterdam|amstelveen|utrecht|rotterdam|the-hague|den-haag|leiden|haarlem|hoofddorp)/",
+      "cityIndex": 3,
+      "slugIndex": 4,
+      "idIndex": 6
+    }
+  },
+  {
+    "ats": "sitemap",
+    "token": "https://www.werkenbijabnamro.nl/sitemap.vacancy.xml",
+    "name": "ABN AMRO",
+    "regions": [
+      "amsterdam"
+    ],
+    "options": {
+      "match": "/vacature/\\d+/",
+      "city": "Amsterdam",
+      "slugIndex": 3,
+      "idIndex": 2
+    }
+  },
+  {
+    "ats": "ashby",
+    "token": "robin-radar",
+    "name": "Robin Radar",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "eye-security",
+    "name": "Eye Security",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "lever",
+    "token": "sambatv",
+    "name": "Samba TV",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "personio",
+    "token": "ohpen",
+    "name": "Ohpen",
+    "regions": [
+      "amsterdam"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "recruitee",
+    "token": "gain",
+    "name": "Gain",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "surfly",
+    "name": "Surfly",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "greenflux",
+    "name": "GreenFlux",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "theinnercircle",
+    "name": "The Inner Circle",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "cuspai",
+    "name": "CuspAI",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "pinely",
+    "name": "Pinely",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "tebi",
+    "name": "Tebi",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "manychat",
+    "name": "Manychat",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "mimica",
+    "name": "Mimica",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "overstory",
+    "name": "Overstory",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "fidamy",
+    "name": "Fidamy",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "feedbackfruits",
+    "name": "FeedbackFruits",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "poki",
+    "name": "Poki",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "teero",
+    "name": "Teero",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "clipbook",
+    "name": "Clipbook",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "axelera",
+    "name": "Axelera AI",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "deepgram",
+    "name": "Deepgram",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "quantware",
+    "name": "QuantWare",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "tavily",
+    "name": "Tavily",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "redwoodsoftware",
+    "name": "Redwood Software",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "telnyx54",
+    "name": "Telnyx",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "workwize",
+    "name": "Workwize",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "openup",
+    "name": "OpenUp",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "optics11",
+    "name": "Optics11",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "toku",
+    "name": "Toku",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "indg",
+    "name": "INDG",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "aquablu",
+    "name": "Aquablu",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "ascendingai",
+    "name": "Ascending AI",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "lleverage",
+    "name": "Lleverage",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "skinvision1",
+    "name": "SkinVision",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "indurex",
+    "name": "Indurex",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "momomedical",
+    "name": "Momo Medical",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "iwell",
+    "name": "iwell",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "freeday",
+    "name": "Freeday",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "intelic",
+    "name": "Intelic",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "fixico",
+    "name": "Fixico",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "vesper",
+    "name": "Vesper",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "roamlercareers",
+    "name": "Roamler",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "luscii",
+    "name": "Luscii",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "shiftbase",
+    "name": "Shiftbase",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "learned",
+    "name": "Learned",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "onlinepaymentplatform",
+    "name": "Online Payment Platform",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "budgetthuis",
+    "name": "Budget Thuis",
+    "regions": [
+      "amsterdam"
+    ]
+  },
+  {
+    "ats": "personio",
+    "token": "ubiops",
+    "name": "UbiOps",
+    "regions": [
+      "amsterdam"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "moonwatt",
+    "name": "Moonwatt",
+    "regions": [
+      "amsterdam"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "personio",
+    "token": "revelane",
+    "name": "Revelane",
+    "regions": [
+      "amsterdam"
+    ],
+    "options": {
+      "language": "en"
+    }
+  },
+  {
+    "ats": "ashby",
+    "token": "almetra",
+    "name": "Almetra",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "tensordyne",
+    "name": "tensordyne",
+    "regions": [
+      "bayern"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "adjoe",
+    "name": "adjoe",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "checkly",
+    "name": "Checkly",
+    "regions": [
+      "berlin",
+      "remote"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "customerio",
+    "name": "Customer.io",
+    "regions": [
+      "remote"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "searchapi",
+    "name": "SearchApi",
+    "regions": [
+      "remote"
+    ]
+  },
+  {
+    "ats": "smartrecruiters",
+    "token": "redcare-pharmacy",
+    "name": "Redcare Pharmacy",
+    "regions": [
+      "berlin",
+      "bayern"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "aerovect",
+    "name": "AeroVect",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "recruitee",
+    "token": "egroup",
+    "name": "eGroup",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "matchmatch",
+    "name": "matchmatch",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "zattoo",
+    "name": "Zattoo",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "ashby",
+    "token": "amboss",
+    "name": "AMBOSS",
+    "regions": [
+      "berlin"
+    ]
+  },
+  {
+    "ats": "greenhouse",
+    "token": "clariness",
+    "name": "Clariness",
+    "regions": [
+      "berlin"
+    ]
+  }
+]

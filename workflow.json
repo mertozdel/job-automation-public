@@ -1,0 +1,1019 @@
+{
+  "name": "AI Engineer job applications - Bayern / Berlin / Amsterdam",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      },
+      "id": "every-morning",
+      "name": "Every Morning",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -660,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "run-now",
+      "name": "Run Now",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "n1",
+              "name": "myName",
+              "value": "Your Name",
+              "type": "string"
+            },
+            {
+              "id": "n2",
+              "name": "myEmail",
+              "value": "you@example.com",
+              "type": "string"
+            },
+            {
+              "id": "n3",
+              "name": "myPhone",
+              "value": "+49 000 0000000",
+              "type": "string"
+            },
+            {
+              "id": "n4",
+              "name": "cvPath",
+              "value": "C:/path/to/job-automation/cv/CV.pdf",
+              "type": "string"
+            },
+            {
+              "id": "s1",
+              "name": "dryRun",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "s2",
+              "name": "maxPerRun",
+              "value": 8,
+              "type": "number"
+            },
+            {
+              "id": "s3",
+              "name": "minFitScore",
+              "value": 70,
+              "type": "number"
+            },
+            {
+              "id": "s4",
+              "name": "rememberDays",
+              "value": 120,
+              "type": "number"
+            },
+            {
+              "id": "s5",
+              "name": "excludeAgencies",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "q1",
+              "name": "keywords",
+              "value": "={{ [\"AI Engineer\",\"Machine Learning Engineer\",\"LLM Engineer\",\"AI Software Engineer\",\"Generative AI Engineer\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "q2",
+              "name": "deLocations",
+              "value": "={{ [\"Berlin\",\"München\",\"Nürnberg\",\"Augsburg\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "q3",
+              "name": "deRadiusKm",
+              "value": 50,
+              "type": "number"
+            },
+            {
+              "id": "q4",
+              "name": "nlLocation",
+              "value": "Amsterdam",
+              "type": "string"
+            },
+            {
+              "id": "q5",
+              "name": "nlRadiusKm",
+              "value": 30,
+              "type": "number"
+            },
+            {
+              "id": "q6",
+              "name": "maxDaysOld",
+              "value": 7,
+              "type": "number"
+            },
+            {
+              "id": "q7",
+              "name": "perQuery",
+              "value": 25,
+              "type": "number"
+            },
+            {
+              "id": "f1",
+              "name": "titleMustMatch",
+              "value": "={{ [\"ai \",\"a.i.\",\"machine learning\",\"ml engineer\",\"llm\",\"genai\",\"generative\",\"nlp\",\"deep learning\",\"data scientist\",\"mlops\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "f2",
+              "name": "titleExclude",
+              "value": "={{ [\"praktik\",\"werkstudent\",\"ausbildung\",\"intern\",\"sales\",\"vertrieb\",\"recruiter\",\"professor\",\"dozent\",\"studentische\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "k1",
+              "name": "adzunaAppId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "k2",
+              "name": "adzunaAppKey",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "k3",
+              "name": "azureEndpoint",
+              "value": "https://YOUR-RESOURCE.openai.azure.com",
+              "type": "string"
+            },
+            {
+              "id": "k4",
+              "name": "azureDeployment",
+              "value": "gpt-4o",
+              "type": "string"
+            },
+            {
+              "id": "k5",
+              "name": "azureApiVersion",
+              "value": "2024-10-21",
+              "type": "string"
+            },
+            {
+              "id": "cv",
+              "name": "cvText",
+              "value": "Your Name - AI Engineer\nCity, Country | +49 000 0000000 | you@example.com\n\nSUMMARY\nReplace this whole value with the plain-text version of your CV. The scoring and letter prompts read it verbatim, so keep it factual.\n\nEXPERIENCE\nJob Title, Company (MM/YYYY - present, Location)\n- Achievement with a number.\n\nSKILLS\nPython, TypeScript, ...\n\nEDUCATION\nDegree, University (YYYY)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -440,
+        300
+      ],
+      "notes": "All tuning knobs live here. dryRun=true drafts everything but sends nothing."
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst out = [];\nfor (const wo of cfg.deLocations) {\n  for (const was of cfg.keywords) {\n    out.push({ json: { was, wo, umkreis: cfg.deRadiusKm, size: cfg.perQuery, days: cfg.maxDaysOld } });\n  }\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-de-queries",
+      "name": "Build DE Queries",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -220,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v6/jobs",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "was",
+              "value": "={{ $json.was }}"
+            },
+            {
+              "name": "wo",
+              "value": "={{ $json.wo }}"
+            },
+            {
+              "name": "umkreis",
+              "value": "={{ $json.umkreis }}"
+            },
+            {
+              "name": "size",
+              "value": "={{ $json.size }}"
+            },
+            {
+              "name": "page",
+              "value": "1"
+            },
+            {
+              "name": "veroeffentlichtseit",
+              "value": "={{ $json.days }}"
+            },
+            {
+              "name": "angebotsart",
+              "value": "1"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "jobboerse-jobsuche"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 3,
+              "batchInterval": 1200
+            }
+          }
+        }
+      },
+      "id": "fetch-bundesagentur",
+      "name": "Fetch Bundesagentur",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        180
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Bundesagentur fuer Arbeit. Free, keyless (static public app key). Search = v6."
+    },
+    {
+      "parameters": {
+        "jsCode": "const out = [];\nfor (const item of $input.all()) {\n  for (const j of (item.json.ergebnisliste || [])) {\n    const adr = ((j.stellenlokationen || [])[0] || {}).adresse || {};\n    const ref = j.referenznummer || '';\n    out.push({ json: {\n      source: 'bundesagentur',\n      ref,\n      title: j.stellenangebotsTitel || '',\n      company: j.firma || j.allianzpartnerName || 'Unbekannt',\n      city: adr.ort || '',\n      region: adr.region || '',\n      country: 'DE',\n      postedAt: j.datumErsteVeroeffentlichung || (j.veroeffentlichungszeitraum || {}).von || '',\n      homeoffice: !!j.homeofficemoeglich,\n      isAgency: !!(j.istPrivateArbeitsvermittlung || j.istArbeitnehmerUeberlassung),\n      url: ref ? 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' + encodeURIComponent(ref) : '',\n      description: '',\n      contactEmail: ''\n    }});\n  }\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "normalize-de",
+      "name": "Normalize DE",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// No Adzuna key -> skip the Amsterdam branch entirely instead of erroring.\nif (!cfg.adzunaAppId || !cfg.adzunaAppKey) return [];\nreturn cfg.keywords.map(what => ({\n  json: { what, where: cfg.nlLocation, distance: cfg.nlRadiusKm, days: cfg.maxDaysOld, size: cfg.perQuery }\n}));",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-nl-queries",
+      "name": "Build NL Queries",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -220,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.adzuna.com/v1/api/jobs/nl/search/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "app_id",
+              "value": "={{ $('Config').first().json.adzunaAppId }}"
+            },
+            {
+              "name": "app_key",
+              "value": "={{ $('Config').first().json.adzunaAppKey }}"
+            },
+            {
+              "name": "what",
+              "value": "={{ $json.what }}"
+            },
+            {
+              "name": "where",
+              "value": "={{ $json.where }}"
+            },
+            {
+              "name": "distance",
+              "value": "={{ $json.distance }}"
+            },
+            {
+              "name": "max_days_old",
+              "value": "={{ $json.days }}"
+            },
+            {
+              "name": "results_per_page",
+              "value": "={{ $json.size }}"
+            },
+            {
+              "name": "sort_by",
+              "value": "date"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 2,
+              "batchInterval": 1500
+            }
+          }
+        }
+      },
+      "id": "fetch-adzuna",
+      "name": "Fetch Adzuna",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        420
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Adzuna NL covers Amsterdam. Free tier: register at developer.adzuna.com."
+    },
+    {
+      "parameters": {
+        "jsCode": "const out = [];\nfor (const item of $input.all()) {\n  for (const j of (item.json.results || [])) {\n    out.push({ json: {\n      source: 'adzuna',\n      ref: String(j.id || ''),\n      title: j.title || '',\n      company: (j.company || {}).display_name || 'Unknown',\n      city: (j.location || {}).display_name || 'Amsterdam',\n      region: 'Noord-Holland',\n      country: 'NL',\n      postedAt: (j.created || '').slice(0, 10),\n      homeoffice: /remote|hybrid|thuiswerk/i.test(j.description || ''),\n      isAgency: /recruit|staffing|uitzend|detacher/i.test((j.company || {}).display_name || ''),\n      url: j.redirect_url || '',\n      description: (j.description || '').replace(/<[^>]+>/g, ' '),\n      contactEmail: ''   // Adzuna never exposes one -> these always land in the review queue\n    }});\n  }\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "normalize-nl",
+      "name": "Normalize NL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "numberInputs": 2
+      },
+      "id": "merge-sources",
+      "name": "Merge Sources",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst pos = (cfg.titleMustMatch || []).map(s => String(s).toLowerCase());\nconst neg = (cfg.titleExclude || []).map(s => String(s).toLowerCase());\nconst out = [];\nfor (const item of $input.all()) {\n  const j = item.json;\n  const t = ' ' + String(j.title || '').toLowerCase() + ' ';\n  if (!pos.some(p => t.includes(p))) continue;\n  if (neg.some(n => t.includes(n))) continue;\n  if (cfg.excludeAgencies && j.isAgency) continue;\n  if (!j.title || !j.company) continue;\n  // Chiffre / anonymous ads have no addressable employer - a cover letter to \"Unbekannt\" is wasted.\n  if (/^(unbekannt|unknown|vertraulich|confidential)$/i.test(String(j.company).trim())) continue;\n  out.push({ json: j });\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "filter-relevant",
+      "name": "Filter Relevant",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst sd = $getWorkflowStaticData('global');\nsd.seen = sd.seen || {};\n\n// forget old entries so a re-posted role can resurface after a while\nconst now = Date.now();\nconst ttl = (cfg.rememberDays || 120) * 86400000;\nfor (const k of Object.keys(sd.seen)) { if (now - sd.seen[k] > ttl) delete sd.seen[k]; }\n\nconst norm = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '');\nconst seenThisRun = new Set();\nconst companiesThisRun = new Set();\nconst out = [];\nfor (const item of $input.all()) {\n  const j = item.json;\n  const co = norm(j.company);\n  const key = co + '|' + norm(j.title);\n  if (sd.seen[key] || seenThisRun.has(key)) continue;\n  // At most one approach per company per run - two mails the same morning reads as a bot.\n  if (companiesThisRun.has(co)) continue;\n  seenThisRun.add(key);\n  companiesThisRun.add(co);\n  out.push({ json: { ...j, dedupeKey: key } });\n  if (out.length >= (cfg.maxPerRun || 8)) break;\n}\n\n// In dry runs, do NOT burn the dedupe key - you want the same list again while tuning.\nif (!cfg.dryRun) { for (const o of out) sd.seen[o.json.dedupeKey] = now; }\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "dedupe-&-cap",
+      "name": "Dedupe & Cap",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "loop-over-jobs",
+      "name": "Loop Over Jobs",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "de",
+              "leftValue": "={{ $json.source }}",
+              "rightValue": "bundesagentur",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "is-german-posting",
+      "name": "Is German Posting",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/jobdetails/' + $json.ref.base64Encode() }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "jobboerse-jobsuche"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-de-detail",
+      "name": "Fetch DE Detail",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        340
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Detail endpoint is still v4 - v5/v6 return 403. Base64 of the refnr."
+    },
+    {
+      "parameters": {
+        "jsCode": "const base = $('Loop Over Jobs').first().json;\nconst d = $input.first().json || {};\nconst desc = String(d.stellenangebotsBeschreibung || '');\n\nconst RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,24}/g;\nconst BLOCK = /(noreply|no-reply|donotreply|postmaster|example\\.|@arbeitsagentur\\.|\\.png|\\.jpg)/i;\nconst TLD = '(?:com|de|net|org|eu|io|ai|nl|at|ch|info|jobs|gmbh|group|tech)';\n\nlet email = '';\nfor (const raw of (desc.match(RE) || [])) {\n  // Descriptions run words straight into the address, e.g. \"jobs@firma.comBewerbende\".\n  let e = raw.replace(new RegExp('^([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+?\\\\.' + TLD + ')[A-Z\\u00c4\\u00d6\\u00dc].*$'), '$1');\n  e = e.replace(/[.,;:)\\]]+$/, '').toLowerCase();\n  if (BLOCK.test(e)) continue;\n  email = e;\n  break;\n}\n\nreturn [{ json: { ...base, description: desc.slice(0, 6000), contactEmail: email } }];",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "extract-contact",
+      "name": "Extract Contact",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst j = $input.first().json;\nconst desc = String(j.description || '');\n\n// Write in the language the posting is written in; Dutch postings get English.\nconst germanish = /(wir suchen|deine aufgaben|ihre aufgaben|abgeschlossenes|kenntnisse|unbefristet|m\\/w\\/d|bewerbung)/i.test(desc);\nconst englishish = /(you will|your profile|we offer|responsibilities|requirements)/i.test(desc);\nconst lang = j.country === 'NL' ? 'English' : (germanish && !englishish ? 'German' : 'English');\n\nconst system = [\n  'You write short, specific job application cover letters.',\n  'Return STRICT JSON only: {\"subject\":\"...\",\"body\":\"...\",\"fit\":0,\"reason\":\"...\"}',\n  'Write the subject and body in ' + lang + '.',\n  'HARD RULE: never claim experience, tools or years that are absent from the CV. No invented metrics.',\n  'body: 180-260 words, plain text, no markdown. Greeting, three short paragraphs, sign-off with the',\n  'candidate name and phone number. Tie 2-3 concrete CV projects to requirements actually named in the posting.',\n  'fit: an honest 0-100 match score. Be strict - score below 60 if core requirements are missing.',\n  'reason: one sentence, in English, justifying the score.'\n].join(' ');\n\nconst user = [\n  'CANDIDATE CV:', cfg.cvText,\n  '', 'CANDIDATE CONTACT: ' + cfg.myName + ', ' + cfg.myPhone + ', ' + cfg.myEmail,\n  '', 'JOB POSTING:',\n  'Title: ' + j.title,\n  'Company: ' + j.company,\n  'Location: ' + j.city + ', ' + j.country,\n  'Link: ' + j.url,\n  'Description:', desc.slice(0, 6000) || '(no description returned by the API)'\n].join('\\n');\n\nreturn [{ json: { ...j, lang, llmPayload: {\n  messages: [{ role: 'system', content: system }, { role: 'user', content: user }],\n  temperature: 0.4,\n  max_tokens: 1200,\n  response_format: { type: 'json_object' }\n}}}];",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-prompt",
+      "name": "Build Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').first().json.azureEndpoint }}/openai/deployments/{{ $('Config').first().json.azureDeployment }}/chat/completions?api-version={{ $('Config').first().json.azureApiVersion }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.llmPayload) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "generate-cover-letter",
+      "name": "Generate Cover Letter",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2200,
+        420
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Header Auth credential: Name = api-key, Value = your Azure OpenAI key."
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst base = { ...$('Build Prompt').first().json };\ndelete base.llmPayload;\n\nconst res = $input.first().json || {};\nlet txt = '';\ntry { txt = res.choices[0].message.content || ''; } catch (e) { txt = ''; }\n\nlet p = {};\ntry { p = JSON.parse(txt); } catch (e) {\n  const m = txt.match(/\\{[\\s\\S]*\\}/);\n  if (m) { try { p = JSON.parse(m[0]); } catch (e2) { p = {}; } }\n}\n\nconst fit = Number.isFinite(Number(p.fit)) ? Number(p.fit) : 0;\nconst letter = String(p.body || '').trim();\n\nreturn [{ json: { ...base,\n  llmOk: letter.length > 80,\n  llmError: letter.length > 80 ? '' : (res.error ? JSON.stringify(res.error).slice(0, 300) : 'no usable completion'),\n  subject: String(p.subject || ('Application: ' + base.title)).slice(0, 180),\n  letter,\n  fit,\n  reason: String(p.reason || ''),\n  passesFit: fit >= (cfg.minFitScore || 70),\n  hasEmail: !!base.contactEmail\n}}];",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "parse-letter",
+      "name": "Parse Letter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.hasEmail }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "c2",
+              "leftValue": "={{ $json.passesFit }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "c3",
+              "leftValue": "={{ $json.llmOk }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "c4",
+              "leftValue": "={{ $('Config').first().json.dryRun }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "send-or-queue",
+      "name": "Send or Queue?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        420
+      ],
+      "notes": "All four must hold before anything leaves your mailbox."
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $('Config').first().json.cvPath }}",
+        "options": {}
+      },
+      "id": "read-cv",
+      "name": "Read CV",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        2860,
+        340
+      ],
+      "notes": "Self-hosted n8n only. On n8n Cloud swap for Google Drive / HTTP Request download."
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $('Config').first().json.myEmail }}",
+        "toEmail": "={{ $('Parse Letter').first().json.contactEmail }}",
+        "subject": "={{ $('Parse Letter').first().json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $('Parse Letter').first().json.letter }}",
+        "options": {
+          "attachments": "data",
+          "replyTo": "={{ $('Config').first().json.myEmail }}"
+        }
+      },
+      "id": "send-application",
+      "name": "Send Application",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        3080,
+        340
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const base = $('Parse Letter').first().json;\nconst inp = $input.first().json || {};\n// The SMTP node returns accepted/messageId; the queue branch just passes the draft through.\nconst sent = !!(inp.messageId || (Array.isArray(inp.accepted) && inp.accepted.length));\nreturn [{ json: { ...base, sent } }];",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "record-outcome",
+      "name": "Record Outcome",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3300,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst items = $input.all().map(i => i.json);\nconst esc = s => String(s == null ? '' : s)\n  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n\nconst sent = items.filter(i => i.sent);\nconst queued = items.filter(i => !i.sent).sort((a, b) => (b.fit || 0) - (a.fit || 0));\n\nconst card = (j, withLetter) => `\n  <div style=\"border:1px solid #e2e2e2;border-radius:8px;padding:14px;margin:0 0 14px;\">\n    <div style=\"font-size:16px;font-weight:600;\">${esc(j.title)}</div>\n    <div style=\"color:#555;\">${esc(j.company)} &middot; ${esc(j.city)}, ${esc(j.country)}\n      &middot; fit <b>${esc(j.fit)}</b>${j.homeoffice ? ' &middot; remote/hybrid' : ''}</div>\n    <div style=\"color:#777;font-size:13px;margin:4px 0;\">${esc(j.reason)}</div>\n    <div style=\"margin:6px 0;\"><a href=\"${esc(j.url)}\">Open posting &rarr;</a>\n      ${j.contactEmail ? ' &middot; <a href=\"mailto:' + esc(j.contactEmail) + '\">' + esc(j.contactEmail) + '</a>' : ''}</div>\n    ${withLetter && j.letter ? '<details><summary style=\"cursor:pointer;color:#0b57d0;\">Draft cover letter ('\n      + esc(j.lang) + ')</summary><pre style=\"white-space:pre-wrap;font:13px/1.5 -apple-system,Segoe UI,sans-serif;'\n      + 'background:#fafafa;padding:10px;border-radius:6px;\">' + esc(j.letter) + '</pre></details>' : ''}\n  </div>`;\n\nconst banner = cfg.dryRun\n  ? '<div style=\"background:#fff4d6;border:1px solid #e8c766;padding:10px;border-radius:6px;margin-bottom:16px;\">'\n    + '<b>DRY RUN</b> - nothing was sent. Set <code>dryRun</code> to false in the Config node to arm it.</div>'\n  : '';\n\nconst html = `<div style=\"font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;max-width:720px;margin:auto;color:#111;\">\n  <h2 style=\"margin:0 0 4px;\">Job run - ${new Date().toISOString().slice(0, 10)}</h2>\n  <p style=\"color:#666;margin:0 0 16px;\">${items.length} new match(es) &middot; ${sent.length} applied &middot; ${queued.length} to review</p>\n  ${banner}\n  ${sent.length ? '<h3>Applied automatically</h3>' + sent.map(j => card(j, true)).join('') : ''}\n  ${queued.length ? '<h3>Needs you (no contact email, low fit, or dry run)</h3>' + queued.map(j => card(j, true)).join('') : ''}\n  <p style=\"color:#888;font-size:12px;\">Sources: Bundesagentur fuer Arbeit (v6) &middot; Adzuna NL.</p>\n</div>`;\n\nreturn [{ json: {\n  subject: `[Jobs] ${sent.length} applied, ${queued.length} to review - ${new Date().toISOString().slice(0, 10)}`,\n  html\n}}];",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-digest",
+      "name": "Build Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $('Config').first().json.myEmail }}",
+        "toEmail": "={{ $('Config').first().json.myEmail }}",
+        "subject": "={{ $json.subject }}",
+        "emailFormat": "html",
+        "html": "={{ $json.html }}",
+        "options": {}
+      },
+      "id": "send-digest",
+      "name": "Send Digest",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1540,
+        160
+      ],
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "Every Morning": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Now": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Build DE Queries",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build NL Queries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build DE Queries": {
+      "main": [
+        [
+          {
+            "node": "Fetch Bundesagentur",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Bundesagentur": {
+      "main": [
+        [
+          {
+            "node": "Normalize DE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build NL Queries": {
+      "main": [
+        [
+          {
+            "node": "Fetch Adzuna",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Adzuna": {
+      "main": [
+        [
+          {
+            "node": "Normalize NL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Relevant": {
+      "main": [
+        [
+          {
+            "node": "Dedupe & Cap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dedupe & Cap": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is German Posting": {
+      "main": [
+        [
+          {
+            "node": "Fetch DE Detail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch DE Detail": {
+      "main": [
+        [
+          {
+            "node": "Extract Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Contact": {
+      "main": [
+        [
+          {
+            "node": "Build Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Parse Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Letter": {
+      "main": [
+        [
+          {
+            "node": "Send or Queue?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send or Queue?": {
+      "main": [
+        [
+          {
+            "node": "Read CV",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Record Outcome",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read CV": {
+      "main": [
+        [
+          {
+            "node": "Send Application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Application": {
+      "main": [
+        [
+          {
+            "node": "Record Outcome",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Outcome": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Jobs": {
+      "main": [
+        [
+          {
+            "node": "Build Digest",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is German Posting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Digest": {
+      "main": [
+        [
+          {
+            "node": "Send Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize DE": {
+      "main": [
+        [
+          {
+            "node": "Merge Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize NL": {
+      "main": [
+        [
+          {
+            "node": "Merge Sources",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Sources": {
+      "main": [
+        [
+          {
+            "node": "Filter Relevant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "tags": []
+}

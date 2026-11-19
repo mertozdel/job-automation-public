@@ -1,0 +1,1968 @@
+{
+  "name": "AI Engineer applications v2 - Bayern / Berlin / Amsterdam",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      },
+      "id": "every-morning",
+      "name": "Every Morning",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -880,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "run-now",
+      "name": "Run Now",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "n1",
+              "name": "myName",
+              "value": "Your Name",
+              "type": "string"
+            },
+            {
+              "id": "n2",
+              "name": "myEmail",
+              "value": "you@example.com",
+              "type": "string"
+            },
+            {
+              "id": "n3",
+              "name": "myPhone",
+              "value": "+49 000 0000000",
+              "type": "string"
+            },
+            {
+              "id": "n4",
+              "name": "myLinkedIn",
+              "value": "https://www.linkedin.com/in/your-profile",
+              "type": "string"
+            },
+            {
+              "id": "n5",
+              "name": "cvPath",
+              "value": "C:/path/to/job-automation/cv/CV.pdf",
+              "type": "string"
+            },
+            {
+              "id": "s1",
+              "name": "dryRun",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "s2",
+              "name": "maxPerRun",
+              "value": 8,
+              "type": "number"
+            },
+            {
+              "id": "scorePoolSize",
+              "name": "scorePoolSize",
+              "value": 24,
+              "type": "number"
+            },
+            {
+              "id": "s3",
+              "name": "minFitScore",
+              "value": 70,
+              "type": "number"
+            },
+            {
+              "id": "s3b",
+              "name": "minRelevance",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "s4",
+              "name": "rememberDays",
+              "value": 180,
+              "type": "number"
+            },
+            {
+              "id": "rejectRecheckDays",
+              "name": "rejectRecheckDays",
+              "value": 30,
+              "type": "number"
+            },
+            {
+              "id": "s5",
+              "name": "excludeAgencies",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "sendGapMinSeconds",
+              "name": "sendGapMinSeconds",
+              "value": 20,
+              "type": "number"
+            },
+            {
+              "id": "sendGapMaxSeconds",
+              "name": "sendGapMaxSeconds",
+              "value": 55,
+              "type": "number"
+            },
+            {
+              "id": "g1",
+              "name": "salaryExpectationEur",
+              "value": 65000,
+              "type": "number"
+            },
+            {
+              "id": "g2",
+              "name": "earliestStart",
+              "value": "zum nächstmöglichen Zeitpunkt",
+              "type": "string"
+            },
+            {
+              "id": "g3",
+              "name": "noticePeriod",
+              "value": "3 Monate zum Quartalsende",
+              "type": "string"
+            },
+            {
+              "id": "g4",
+              "name": "includeSalaryInGerman",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "x1",
+              "name": "showcaseMode",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "x2",
+              "name": "portfolioUrl",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "x3",
+              "name": "showcaseFacts",
+              "value": "n8n orchestration, models via OpenRouter (deepseek-v4-flash). Four public job sources: a 55-company Greenhouse/Lever/Ashby board registry, the Bundesagentur v6 API, Arbeitnow and Adzuna. Scans ~494 open engineering roles across Berlin, Bayern and Amsterdam each morning. Two-stage LLM: a cheap scoring pass gates the more expensive generation pass, which cuts token spend several-fold and removes the bias of letting one call both write and grade a letter. Postgres-backed dedupe with fuzzy title matching so one role posted to three boards is one application. The final submit stays manual on purpose: Greenhouse, Lever and Ashby all require the employer's own API key to accept an application, so automating it would mean using credentials I was not issued.",
+              "type": "string"
+            },
+            {
+              "id": "q1",
+              "name": "regions",
+              "value": "={{ [\"amsterdam\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "employerSearchTerms",
+              "name": "employerSearchTerms",
+              "value": "={{ [\"KI\",\"AI\",\"Machine Learning\",\"Data Scientist\",\"Computer Vision\",\"Software Engineer\",\"Softwareentwickler\",\"Python\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "q2",
+              "name": "keywords",
+              "value": "={{ [\"AI Engineer\",\"Machine Learning Engineer\",\"LLM Engineer\",\"AI Software Engineer\",\"Generative AI Engineer\",\"KI\",\"Künstliche Intelligenz\",\"Computer Vision\",\"Data Scientist\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "q2b",
+              "name": "includeFullStack",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "q2c",
+              "name": "keywordsFullStack",
+              "value": "={{ [\"Full Stack Engineer\",\"Backend Engineer\",\"Softwareentwickler\",\"Fullstack Entwickler\",\"Software Engineer\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "q3",
+              "name": "deLocations",
+              "value": "={{ [\"Berlin\",\"München\",\"Nürnberg\",\"Augsburg\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "q4",
+              "name": "deRadiusKm",
+              "value": 50,
+              "type": "number"
+            },
+            {
+              "id": "q5",
+              "name": "nlLocation",
+              "value": "Amsterdam",
+              "type": "string"
+            },
+            {
+              "id": "q6",
+              "name": "nlRadiusKm",
+              "value": 30,
+              "type": "number"
+            },
+            {
+              "id": "q7",
+              "name": "maxDaysOld",
+              "value": 30,
+              "type": "number"
+            },
+            {
+              "id": "q8",
+              "name": "perQuery",
+              "value": 100,
+              "type": "number"
+            },
+            {
+              "id": "baPages",
+              "name": "baPages",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "q9",
+              "name": "arbeitnowPages",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "q10",
+              "name": "useAdzuna",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "adzunaGermany",
+              "name": "adzunaGermany",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "f1",
+              "name": "titleMustMatch",
+              "value": "={{ [\"ai \",\"a.i.\",\"machine learning\",\"ml engineer\",\"llm\",\"genai\",\"generative\",\"nlp\",\"deep learning\",\"data scientist\",\"mlops\",\" ki \",\" ki-\",\"(ki)\",\"/ki\",\"künstliche intelligenz\",\"computer vision\",\"bildverarbeitung\",\"python\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "f1b",
+              "name": "titleMustMatchFullStack",
+              "value": "={{ [\"full stack\",\"full-stack\",\"fullstack\",\"backend\",\"back-end\",\"software engineer\",\"softwareentwickler\",\"software-entwickler\",\"fullstack-entwickler\",\"backend-entwickler\",\"webentwickler\",\"web developer\",\"softwareingenieur\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "f2",
+              "name": "titleExclude",
+              "value": "={{ [\"praktik\",\"werkstudent\",\"ausbildung\",\"intern\",\"sales\",\"vertrieb\",\"recruiter\",\"professor\",\"dozent\",\"studentische\",\"head of\",\"vp \",\"director\",\"chief\",\"product manager\",\"program manager\",\"project manager\",\"consultant\",\"account executive\",\"presales\",\"pre-sales\",\"designer\",\"scrum master\",\"agile coach\",\"studium\",\"thesis\",\"abschlussarbeit\",\"masterarbeit\",\"bachelorarbeit\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "k4",
+              "name": "scoreModel",
+              "value": "deepseek/deepseek-v4-flash",
+              "type": "string"
+            },
+            {
+              "id": "k5",
+              "name": "letterModel",
+              "value": "deepseek/deepseek-v4-flash",
+              "type": "string"
+            },
+            {
+              "id": "k6",
+              "name": "scoreEffort",
+              "value": "low",
+              "type": "string"
+            },
+            {
+              "id": "k7",
+              "name": "letterEffort",
+              "value": "low",
+              "type": "string"
+            },
+            {
+              "id": "k8",
+              "name": "scoreTemperature",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "k9",
+              "name": "letterTemperature",
+              "value": 0.4,
+              "type": "number"
+            },
+            {
+              "id": "cv",
+              "name": "cvText",
+              "value": "Your Name - AI Engineer\nCity, Country | +49 000 0000000 | you@example.com\n\nSUMMARY\nReplace this whole value with the plain-text version of your CV. The scoring and letter prompts read it verbatim, so keep it factual.\n\nEXPERIENCE\nJob Title, Company (MM/YYYY - present, Location)\n- Achievement with a number.\n\nSKILLS\nPython, TypeScript, ...\n\nEDUCATION\nDegree, University (YYYY)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -660,
+        380
+      ],
+      "notes": "Tuning knobs. No secrets here - Adzuna + Azure keys live in n8n credentials."
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// Verified boards - each probed live. Read access is public and keyless on all three ATSs.\nconst REGISTRY = [{\"ats\": \"greenhouse\",\"token\": \"helsing\",\"name\": \"Helsing\",\"regions\": [\"bayern\",\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"nebius\",\"name\": \"Nebius\",\"regions\": [\"amsterdam\",\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"databricks\",\"name\": \"Databricks\",\"regions\": [\"amsterdam\",\"bayern\",\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"isaraerospace\",\"name\": \"Isar Aerospace\",\"regions\": [\"bayern\"]},{\"ats\": \"greenhouse\",\"token\": \"adyen\",\"name\": \"Adyen\",\"regions\": [\"amsterdam\"]},{\"ats\": \"greenhouse\",\"token\": \"celonis\",\"name\": \"Celonis\",\"regions\": [\"amsterdam\",\"bayern\"]},{\"ats\": \"greenhouse\",\"token\": \"parloa\",\"name\": \"Parloa\",\"regions\": [\"bayern\",\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"doctolib\",\"name\": \"Doctolib\",\"regions\": [\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"hellofresh\",\"name\": \"HelloFresh\",\"regions\": [\"berlin\"]},{\"ats\": \"ashby\",\"token\": \"proxima-fusion\",\"name\": \"Proxima Fusion\",\"regions\": [\"bayern\"]},{\"ats\": \"greenhouse\",\"token\": \"imc\",\"name\": \"IMC Trading\",\"regions\": [\"amsterdam\"]},{\"ats\": \"ashby\",\"token\": \"egym\",\"name\": \"EGYM\",\"regions\": [\"bayern\"]},{\"ats\": \"recruitee\",\"token\": \"xomnia\",\"name\": \"Xomnia\",\"regions\": [\"amsterdam\"]},{\"ats\": \"greenhouse\",\"token\": \"commercetools\",\"name\": \"commercetools\",\"regions\": [\"bayern\",\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"getyourguide\",\"name\": \"GetYourGuide\",\"regions\": [\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"flowtraders\",\"name\": \"Flow Traders\",\"regions\": [\"amsterdam\"]},{\"ats\": \"ashby\",\"token\": \"langdock\",\"name\": \"Langdock\",\"regions\": [\"berlin\"]},{\"ats\": \"ashby\",\"token\": \"nelly\",\"name\": \"Nelly\",\"regions\": [\"berlin\"]},{\"ats\": \"recruitee\",\"token\": \"budgetenergie\",\"name\": \"Budget Energie\",\"regions\": [\"amsterdam\"]},{\"ats\": \"recruitee\",\"token\": \"cz\",\"name\": \"CZ\",\"regions\": [\"amsterdam\"]},{\"ats\": \"greenhouse\",\"token\": \"solarisbank\",\"name\": \"Solaris\",\"regions\": [\"berlin\"]},{\"ats\": \"ashby\",\"token\": \"enpal\",\"name\": \"Enpal\",\"regions\": [\"berlin\"]},{\"ats\": \"ashby\",\"token\": \"mollie\",\"name\": \"Mollie\",\"regions\": [\"amsterdam\"]},{\"ats\": \"ashby\",\"token\": \"n8n\",\"name\": \"n8n\",\"regions\": [\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"staffbase\",\"name\": \"Staffbase\",\"regions\": [\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"anthropic\",\"name\": \"Anthropic\",\"regions\": [\"bayern\"]},{\"ats\": \"greenhouse\",\"token\": \"catawiki\",\"name\": \"Catawiki\",\"regions\": [\"amsterdam\"]},{\"ats\": \"greenhouse\",\"token\": \"marvelfusion\",\"name\": \"Marvel Fusion\",\"regions\": [\"bayern\"]},{\"ats\": \"greenhouse\",\"token\": \"scout24\",\"name\": \"Scout24\",\"regions\": [\"berlin\"]},{\"ats\": \"ashby\",\"token\": \"tacto\",\"name\": \"Tacto\",\"regions\": [\"bayern\"]},{\"ats\": \"recruitee\",\"token\": \"funda\",\"name\": \"funda\",\"regions\": [\"amsterdam\"]},{\"ats\": \"recruitee\",\"token\": \"aidence\",\"name\": \"Aidence\",\"regions\": [\"amsterdam\"]},{\"ats\": \"ashby\",\"token\": \"forto\",\"name\": \"Forto\",\"regions\": [\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"moonfare\",\"name\": \"Moonfare\",\"regions\": [\"berlin\"]},{\"ats\": \"ashby\",\"token\": \"openai\",\"name\": \"OpenAI\",\"regions\": [\"bayern\"]},{\"ats\": \"greenhouse\",\"token\": \"raisin\",\"name\": \"Raisin\",\"regions\": [\"berlin\"]},{\"ats\": \"ashby\",\"token\": \"upvest\",\"name\": \"Upvest\",\"regions\": [\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"dept\",\"name\": \"DEPT\",\"regions\": [\"amsterdam\"]},{\"ats\": \"greenhouse\",\"token\": \"typeform\",\"name\": \"Typeform\",\"regions\": [\"amsterdam\"]},{\"ats\": \"ashby\",\"token\": \"zenjob\",\"name\": \"Zenjob\",\"regions\": [\"berlin\"]},{\"ats\": \"recruitee\",\"token\": \"true\",\"name\": \"True\",\"regions\": [\"amsterdam\"]},{\"ats\": \"recruitee\",\"token\": \"channable\",\"name\": \"Channable\",\"regions\": [\"amsterdam\"]},{\"ats\": \"ashby\",\"token\": \"sensorfact\",\"name\": \"Sensorfact\",\"regions\": [\"amsterdam\"]},{\"ats\": \"ashby\",\"token\": \"babbel\",\"name\": \"Babbel\",\"regions\": [\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"gitlab\",\"name\": \"GitLab\",\"regions\": [\"amsterdam\"]},{\"ats\": \"greenhouse\",\"token\": \"vay\",\"name\": \"Vay\",\"regions\": [\"berlin\"]},{\"ats\": \"greenhouse\",\"token\": \"datadog\",\"name\": \"Datadog\",\"regions\": [\"amsterdam\"]},{\"ats\": \"ashby\",\"token\": \"polarsteps\",\"name\": \"Polarsteps\",\"regions\": [\"amsterdam\"]},{\"ats\": \"greenhouse\",\"token\": \"dataiku\",\"name\": \"Dataiku\",\"regions\": [\"amsterdam\"]},{\"ats\": \"greenhouse\",\"token\": \"elastic\",\"name\": \"Elastic\",\"regions\": [\"amsterdam\"]},{\"ats\": \"greenhouse\",\"token\": \"konux\",\"name\": \"KONUX\",\"regions\": [\"bayern\"]},{\"ats\": \"ashby\",\"token\": \"luminovo\",\"name\": \"Luminovo\",\"regions\": [\"bayern\"]},{\"ats\": \"ashby\",\"token\": \"bynder\",\"name\": \"Bynder\",\"regions\": [\"amsterdam\"]},{\"ats\": \"ashby\",\"token\": \"cradlebio\",\"name\": \"Cradle\",\"regions\": [\"amsterdam\"]},{\"ats\": \"lever\",\"token\": \"qonto\",\"name\": \"Qonto\",\"regions\": [\"berlin\"]}];\nconst want = new Set(cfg.regions || []);\n\n// Watchlist employers from Postgres (table `employers`): the companies whose OWN careers site\n// runs on SuccessFactors, Workday, SmartRecruiters, Personio... Error rows (table missing,\n// DB down) have no `ats` and drop out, so the curated registry still runs on its own.\nconst rows = $('Load Employers').all().map(i => i.json || {}).filter(r => r.ats && r.token);\nconst seen = new Set();\nconst boards = REGISTRY.map(c => ({ ...c, options: {}, tier: 'curated' }))\n  .concat(rows.map(r => ({ ats: String(r.ats).toLowerCase(), token: String(r.token), name: r.name,\n    regions: Array.isArray(r.regions) ? r.regions : String(r.regions || '').replace(/[{}]/g, '').split(',').filter(Boolean),\n    options: (typeof r.options === 'string' ? JSON.parse(r.options || '{}') : r.options) || {},\n    tier: 'watchlist' })))\n  .filter(b => { const k = b.ats + '|' + b.token.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; })\n  .filter(b => b.regions.some(r => want.has(r)));\n\n// Big employers list hundreds of roles, most irrelevant; their feeds are searched per term\n// instead of downloaded whole. One request per (employer, term), merged back in Normalize ATS.\nconst terms = (cfg.employerSearchTerms && cfg.employerSearchTerms.length) ? cfg.employerSearchTerms\n  : ['KI', 'AI', 'Machine Learning', 'Software Engineer', 'Softwareentwickler', 'Python'];\nconst COUNTRY = { berlin: 'de', bayern: 'de', amsterdam: 'nl' };\nconst enc = encodeURIComponent;\nconst get = (b, url, term) => ({ ...b, method: 'GET', url, term: term || '' });\n\nconst out = [];\nfor (const b of boards) {\n  const t = b.token;\n  switch (b.ats) {\n    case 'greenhouse': out.push(get(b, `https://boards-api.greenhouse.io/v1/boards/${t}/jobs?content=true`)); break;\n    case 'lever':      out.push(get(b, `https://api.lever.co/v0/postings/${t}?mode=json`)); break;\n    case 'ashby':      out.push(get(b, `https://api.ashbyhq.com/posting-api/job-board/${t}`)); break;\n    case 'recruitee':  out.push(get(b, `https://${t}.recruitee.com/api/offers/`)); break;\n    case 'personio':   out.push(get(b, `https://${t}.jobs.personio.de/xml?language=${b.options.language || 'de'}`)); break;\n    case 'successfactors': { // token = the site's base URL; its public RSS returns ~20 items per query\n      // The RSS ignores every location parameter, but location words in the keywords re-rank it:\n      // measured on Schaeffler, \"Software\" gave 0/20 German jobs, \"Software DE\" gave 14/20.\n      const sfx = b.options.keywordSuffix ? ' ' + b.options.keywordSuffix : '';\n      for (const term of terms) out.push(get(b, `${t.replace(/\\/+$/, '')}/services/rss/job/?locale=${b.options.locale || 'de_DE'}&keywords=${enc(term + sfx)}`, term));\n      break;\n    }\n    case 'smartrecruiters': {\n      const countries = [...new Set(b.regions.filter(r => want.has(r)).map(r => COUNTRY[r]).filter(Boolean))];\n      for (const c of countries) for (const term of terms)\n        out.push(get(b, `https://api.smartrecruiters.com/v1/companies/${t}/postings?limit=100&country=${c}&q=${enc(term)}`, term));\n      break;\n    }\n    case 'workday': {        // token = \"tenant|wdN|site\"; the public CXS endpoint wants a POST\n      const [tenant, wd, site] = t.split('|');\n      if (!tenant || !wd || !site) break;\n      for (const term of terms) out.push({ ...b, method: 'POST', term,\n        url: `https://${tenant}.${wd}.myworkdayjobs.com/wday/cxs/${tenant}/${site}/jobs`,\n        body: { appliedFacets: b.options.facets || {}, limit: 20, offset: 0, searchText: term } });\n      break;\n    }\n  }\n}\nreturn out.map(json => ({ json }));",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "ats-registry",
+      "name": "ATS Registry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -220,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 6,
+              "batchInterval": 500
+            }
+          },
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "fetch-ats-board",
+      "name": "Fetch ATS Board",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        40
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Public job boards. No auth. One request per company in the registry."
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst RX = {\n  berlin:    /\\bberlin\\b|\\bBE,\\s*DE\\b/i,\n  bayern:    /\\b(m[uü]nchen|munich|n[uü]rnberg|nuremberg|bayern|bavaria|augsburg|erlangen|f[uü]rth|herzogenaurach|forchheim|ingolstadt|regensburg|w[uü]rzburg|bamberg|garching|unterf[oö]hring|unterschlei[sß]heim|ismaning)\\b|\\bBY,\\s*DE\\b/i,\n  amsterdam: /\\b(amsterdam|amstelveen|diemen|schiphol|utrecht|haarlem|hoofddorp|leiden|delft|hilversum|almere|netherlands|nederland|den haag|the hague|rotterdam|eindhoven)\\b/i\n};\n// At an AI-native company the COMPANY is the filter, not the title: their ML roles are\n// called \"Senior Software Engineer\". So accept engineering broadly and let fit scoring decide.\nconst ENG = /\\b(engineer|engineering|developer|entwickler|scientist|science|research|architect|ml|ai|ki|llm|data|platform|infrastructure|backend|full.?stack|devops|sre|software|python)\\b/i;\nconst NOPE = new RegExp((cfg.titleExclude || []).map(s => String(s).replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')).join('|') || '$^', 'i');\nconst want = cfg.regions || [];\n\nconst strip = h => String(h || '')\n  .replace(/<!\\[CDATA\\[|\\]\\]>/g, '')\n  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '\"').replace(/&#39;/g, \"'\")\n  .replace(/&amp;/g, '&').replace(/&#(\\d+);/g, (m, d) => String.fromCharCode(+d))\n  .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\\s+/g, ' ').trim();\nconst tag = (xml, t) => { const m = xml.match(new RegExp('<' + t + '>([\\\\s\\\\S]*?)</' + t + '>')); return m ? m[1] : ''; };\nconst blocks = (xml, t) => xml.match(new RegExp('<' + t + '>[\\\\s\\\\S]*?</' + t + '>', 'g')) || [];\n\n// One response per request, in order: fetched as TEXT so an ATS that returns a bare JSON array\n// (Lever) stays one item instead of being split into one item per job. Merge Boards appends the\n// Workday (POST) responses first, then the GET ones - the same order as the IF's two outputs.\nconst reg = $('Is POST?').all(0).concat($('Is POST?').all(1));\nconst inputs = $input.all();\nconst out = [];\nconst seen = new Set();\nfor (let i = 0; i < inputs.length; i++) {\n  const meta = (reg[i] || {}).json || {};\n  const ats = meta.ats, company = meta.name || meta.token;\n  if (!ats) continue;\n  const raw = typeof (inputs[i].json || {}).data === 'string' ? inputs[i].json.data : '';\n  let d = {};\n  try { d = JSON.parse(raw); } catch (e) { d = {}; }\n\n  let rows = [];\n  if (ats === 'greenhouse' && Array.isArray(d.jobs)) {\n    rows = d.jobs.map(j => ({ id: j.id, title: j.title, loc: (j.location || {}).name || '',\n      url: j.absolute_url, desc: strip(j.content), posted: (j.updated_at || '').slice(0, 10) }));\n  } else if (ats === 'lever' && Array.isArray(d)) {\n    rows = d.map(j => ({ id: j.id, title: j.text, loc: ((j.categories || {}).location) || '',\n      url: j.hostedUrl, desc: strip(j.descriptionPlain || j.description),\n      posted: j.createdAt ? new Date(j.createdAt).toISOString().slice(0, 10) : '' }));\n  } else if (ats === 'recruitee' && Array.isArray(d.offers)) {\n    // country_code is exact - free-text location says \"Remote job\" for US roles too.\n    rows = d.offers.filter(j => j.country_code === 'NL').map(j => ({\n      id: j.id, title: j.title,\n      loc: [j.city, j.location, j.country].filter(Boolean).join(' '),\n      url: j.careers_url || j.careers_apply_url,\n      desc: strip([j.description, j.requirements].filter(Boolean).join(' ')),\n      posted: String(j.published_at || j.created_at || '').slice(0, 10) }));\n  } else if (ats === 'ashby' && Array.isArray(d.jobs)) {\n    rows = d.jobs.map(j => ({ id: j.id || j.jobId, title: j.title, loc: j.location || '',\n      url: j.jobUrl || j.applyUrl, desc: strip(j.descriptionPlain || j.descriptionHtml),\n      posted: (j.publishedAt || '').slice(0, 10) }));\n  } else if (ats === 'personio' && raw.includes('<position>')) {\n    rows = blocks(raw, 'position').map(p => {\n      const id = strip(tag(p, 'id'));\n      return { id, title: strip(tag(p, 'name')),\n        loc: blocks(p, 'office').map(strip).join(' '),        // main + additionalOffices\n        url: `https://${meta.token}.jobs.personio.de/job/${id}`,\n        desc: strip(blocks(p, 'value').join(' ')), posted: strip(tag(p, 'createdAt')).slice(0, 10) };\n    });\n  } else if (ats === 'successfactors' && raw.includes('<item>')) {\n    // Titles look like \"Data Engineer (all genders) (Berlin, BE, DE, 10115)\" - the last\n    // parenthesis is the location. The RSS description carries the full ad.\n    rows = blocks(raw, 'item').map(it => {\n      const full = strip(tag(it, 'title'));\n      const m = full.match(/\\(([^()]*,\\s*[A-Z]{2}(?:,[^()]*)?)\\)\\s*$/);\n      const link = strip(tag(it, 'link'));\n      return { id: (link.match(/\\/(\\d+)\\/?(?:\\?|$)/) || [])[1] || link, title: m ? full.slice(0, m.index).trim() : full,\n        loc: m ? m[1] : full, url: link.replace(/\\?feedId=[^&]*&?$/, ''),\n        desc: strip(tag(it, 'description')), posted: '' };\n    });\n  } else if (ats === 'workday' && Array.isArray(d.jobPostings)) {\n    // The list has no description and sometimes only a site code as location; the detail\n    // endpoint has both, fetched later for the shortlist only.\n    const [tenant, wd, site] = String(meta.token).split('|');\n    const base = `https://${tenant}.${wd}.myworkdayjobs.com`;\n    rows = d.jobPostings.map(j => ({ id: (j.bulletFields || [])[0] || j.externalPath, title: j.title,\n      loc: [j.locationsText, String(j.externalPath || '').split('/')[2]].filter(Boolean).join(' ').replace(/-/g, ' '),\n      url: `${base}/${site}${j.externalPath}`, desc: '', posted: '',\n      detailUrl: `${base}/wday/cxs/${tenant}/${site}${j.externalPath}`,\n      countryFiltered: !!(meta.options && meta.options.facets && Object.keys(meta.options.facets).length) }));\n  } else if (ats === 'smartrecruiters' && Array.isArray(d.content)) {\n    rows = d.content.map(j => ({ id: j.id, title: j.name,\n      loc: [(j.location || {}).city, (j.location || {}).fullLocation].filter(Boolean).join(' '),\n      url: `https://jobs.smartrecruiters.com/${meta.token}/${j.id}`, desc: '',\n      posted: String(j.releasedDate || '').slice(0, 10), detailUrl: j.ref }));\n  }\n\n  for (const r of rows) {\n    if (!r.title || !ENG.test(r.title) || NOPE.test(r.title)) continue;\n    let region = want.find(w => RX[w] && RX[w].test(r.loc));\n    // A country-filtered Workday search only returns jobs in that country, so an unreadable\n    // site code there still means \"in our country\"; take the employer's own region.\n    if (!region && r.countryFiltered) region = (meta.regions || []).find(x => want.includes(x));\n    if (!region) continue;\n    const key = company + '|' + r.id;                   // searched per term -> same job repeats\n    if (seen.has(key)) continue;\n    seen.add(key);\n    out.push({ json: {\n      source: 'ats:' + ats, tier: meta.tier || 'curated', ref: String(r.id || ''),\n      title: r.title, company, city: r.loc, region, country: region === 'amsterdam' ? 'NL' : 'DE',\n      postedAt: r.posted, homeoffice: /remote|hybrid/i.test(r.loc + ' ' + r.desc), isAgency: false,\n      url: r.url || '', description: (r.desc || '').slice(0, 6000),\n      needsDetail: !!r.detailUrl && !r.desc, detailUrl: r.detailUrl || '',\n      contactEmail: '',           // ATS apply is employer-key only -> always the fast-path queue\n      applyChannel: 'ats'\n    }});\n  }\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "normalize-ats",
+      "name": "Normalize ATS",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        -40
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst terms = (cfg.keywords || []).concat(cfg.includeFullStack ? (cfg.keywordsFullStack || []) : []);\n// A query returns up to `perQuery` (max 100) per page; baPages > 1 reads deeper. Measured\n// 2026-09-24: \"KI\" in München alone had 609 postings in 30 days - one 25-row page saw 4%.\nconst pages = Math.max(1, Math.min(Number(cfg.baPages) || 1, 5));\nconst out = [];\nfor (const wo of cfg.deLocations) {\n  // Only the German cities whose region is enabled in Config.regions.\n  if (!(cfg.regions || []).includes(/berlin/i.test(wo) ? 'berlin' : 'bayern')) continue;\n  for (const was of terms) {\n    for (let page = 1; page <= pages; page++) {\n      out.push({ json: { was, wo, page, umkreis: cfg.deRadiusKm, size: Math.min(cfg.perQuery || 100, 100),\n                         days: cfg.maxDaysOld } });\n    }\n  }\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-de-queries",
+      "name": "Build DE Queries",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v6/jobs",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "was",
+              "value": "={{ $json.was }}"
+            },
+            {
+              "name": "wo",
+              "value": "={{ $json.wo }}"
+            },
+            {
+              "name": "umkreis",
+              "value": "={{ $json.umkreis }}"
+            },
+            {
+              "name": "size",
+              "value": "={{ $json.size }}"
+            },
+            {
+              "name": "page",
+              "value": "={{ $json.page || 1 }}"
+            },
+            {
+              "name": "veroeffentlichtseit",
+              "value": "={{ $json.days }}"
+            },
+            {
+              "name": "angebotsart",
+              "value": "1"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "jobboerse-jobsuche"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 3,
+              "batchInterval": 1200
+            }
+          }
+        }
+      },
+      "id": "fetch-bundesagentur",
+      "name": "Fetch Bundesagentur",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -220,
+        380
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Search = v6. v4 search returns 403."
+    },
+    {
+      "parameters": {
+        "jsCode": "// The v6 API no longer returns istPrivateArbeitsvermittlung / istArbeitnehmerUeberlassung,\n// so excludeAgencies silently did nothing for Bundesagentur ads. The name has to do the work.\nconst AGENCY = /personalvermittlung|personaldienst|personalberatung|zeitarbeit|arbeitnehmer.?[uü]berlassung|recruiting|staffing|hays|randstad|manpower|adecco|gulp|solcom|etengo|computer futures|experis|brunel|ferchau|amadeus fire|\\bdis ag\\b/i;\nconst out = [];\nfor (const item of $input.all()) {\n  for (const j of (item.json.ergebnisliste || [])) {\n    const adr = ((j.stellenlokationen || [])[0] || {}).adresse || {};\n    const ref = j.referenznummer || '';\n    const ort = adr.ort || '';\n    out.push({ json: {\n      source: 'bundesagentur', tier: 'search', ref,\n      title: j.stellenangebotsTitel || '', company: j.firma || j.allianzpartnerName || '',\n      city: ort, region: /berlin/i.test(adr.region || ort) ? 'berlin' : 'bayern', country: 'DE',\n      postedAt: j.datumErsteVeroeffentlichung || (j.veroeffentlichungszeitraum || {}).von || '',\n      homeoffice: !!j.homeofficemoeglich,\n      isAgency: !!(j.istPrivateArbeitsvermittlung || j.istArbeitnehmerUeberlassung) || AGENCY.test(j.firma || ''),\n      url: ref ? 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' + encodeURIComponent(ref) : '',\n      description: '', needsDetail: true, contactEmail: '', applyChannel: 'unknown'\n    }});\n  }\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "normalize-de",
+      "name": "Normalize DE",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        380
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// Adzuna is the aggregator for BOTH countries: Amsterdam (the only broad NL source) and, with\n// adzunaGermany, the German cities too - it indexes company career sites the Bundesagentur misses.\n// Returning [] when switched off means Fetch Adzuna never runs, so a missing credential costs nothing.\nif (!cfg.useAdzuna) return [];\nconst terms = (cfg.keywords || []).concat(cfg.includeFullStack ? (cfg.keywordsFullStack || []) : []);\nconst targets = [];\nif ((cfg.regions || []).includes('amsterdam'))\n  targets.push({ country: 'nl', where: cfg.nlLocation, distance: cfg.nlRadiusKm, region: 'amsterdam' });\nif (cfg.adzunaGermany) {\n  for (const wo of (cfg.deLocations || [])) {\n    const region = /berlin/i.test(wo) ? 'berlin' : 'bayern';\n    if ((cfg.regions || []).includes(region))\n      targets.push({ country: 'de', where: wo, distance: cfg.deRadiusKm, region });\n  }\n}\nconst out = [];\nfor (const t of targets) for (const what of terms)\n  out.push({ json: { ...t, what, days: cfg.maxDaysOld, size: 50 } });\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-nl-queries",
+      "name": "Build NL Queries",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://api.adzuna.com/v1/api/jobs/' + ($json.country || 'nl') + '/search/1' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "what",
+              "value": "={{ $json.what }}"
+            },
+            {
+              "name": "where",
+              "value": "={{ $json.where }}"
+            },
+            {
+              "name": "distance",
+              "value": "={{ $json.distance }}"
+            },
+            {
+              "name": "max_days_old",
+              "value": "={{ $json.days }}"
+            },
+            {
+              "name": "results_per_page",
+              "value": "={{ $json.size }}"
+            },
+            {
+              "name": "sort_by",
+              "value": "date"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 2,
+              "batchInterval": 1500
+            }
+          }
+        }
+      },
+      "id": "fetch-adzuna",
+      "name": "Fetch Adzuna",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -220,
+        600
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Query Auth credential supplies app_id + app_key. Disable this node if unused."
+    },
+    {
+      "parameters": {
+        "jsCode": "// One Adzuna response per query, in order - each carries the country/region it was asked for.\nconst queries = $('Build NL Queries').all();\n// Prefer the job's own city; fall back to the region the query asked for.\nconst RX = {\n  berlin:    /\\bberlin\\b/i,\n  bayern:    /\\b(m[uü]nchen|munich|n[uü]rnberg|nuremberg|bayern|augsburg|erlangen|f[uü]rth|herzogenaurach|ingolstadt|regensburg)\\b/i,\n  amsterdam: /\\b(amsterdam|amstelveen|utrecht|haarlem|hoofddorp|leiden|rotterdam|den haag|eindhoven|nederland|netherlands)\\b/i\n};\nconst out = [];\n$input.all().forEach((item, i) => {\n  const q = (queries[i] || {}).json || {};\n  const nl = q.country !== 'de';\n  for (const j of (item.json.results || [])) {\n    out.push({ json: {\n      source: 'adzuna', tier: 'search', ref: String(j.id || ''),\n      title: j.title || '', company: (j.company || {}).display_name || '',\n      city: (j.location || {}).display_name || q.where || '',\n      region: Object.keys(RX).find(r => RX[r].test((j.location || {}).display_name || '')) || q.region || 'amsterdam',\n      country: nl ? 'NL' : 'DE',\n      postedAt: (j.created || '').slice(0, 10),\n      homeoffice: /remote|hybrid|thuiswerk|homeoffice/i.test(j.description || ''),\n      isAgency: /recruit|staffing|uitzend|detacher|personaldienst|zeitarbeit|personalvermittlung/i\n        .test((j.company || {}).display_name || ''),\n      url: j.redirect_url || '', description: (j.description || '').replace(/<[^>]+>/g, ' '),\n      contactEmail: '', applyChannel: 'link'\n    }});\n  }\n});\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "normalize-nl",
+      "name": "Normalize NL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        600
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// Plain paginated feed - no server-side filtering, so pull N pages and filter locally.\nconst n = Math.max(1, Math.min(cfg.arbeitnowPages || 5, 15));\nreturn Array.from({ length: n }, (_, i) => ({ json: { page: i + 1 } }));",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-arbeitnow-pages",
+      "name": "Build Arbeitnow Pages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://www.arbeitnow.com/api/job-board-api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "page",
+              "value": "={{ $json.page }}"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 2,
+              "batchInterval": 1200
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "fetch-arbeitnow",
+      "name": "Fetch Arbeitnow",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -220,
+        820
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Public German job-board API. No key. 250 jobs/page."
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst RX = {\n  berlin:    /\\bberlin\\b/i,\n  bayern:    /\\b(m[uü]nchen|munich|n[uü]rnberg|nuremberg|bayern|bavaria|augsburg|erlangen|ingolstadt|regensburg|w[uü]rzburg)\\b/i,\n  amsterdam: /\\b(amsterdam|utrecht|haarlem|hoofddorp|netherlands|nederland|rotterdam|eindhoven)\\b/i\n};\nconst want = cfg.regions || [];\nconst strip = h => String(h || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ')\n  .replace(/&amp;/g, '&').replace(/\\s+/g, ' ').trim();\nconst cutoff = Date.now() - (cfg.maxDaysOld || 7) * 86400000;\n\nconst out = [];\nfor (const item of $input.all()) {\n  for (const j of (item.json.data || [])) {\n    const loc = j.location || '';\n    const region = want.find(w => RX[w] && RX[w].test(loc));\n    if (!region) continue;\n    // created_at is unix seconds\n    const ts = Number(j.created_at || 0) * 1000;\n    if (ts && ts < cutoff) continue;\n    out.push({ json: {\n      source: 'arbeitnow', tier: 'search', ref: String(j.slug || ''),\n      title: j.title || '', company: j.company_name || '',\n      city: loc, region, country: region === 'amsterdam' ? 'NL' : 'DE',\n      postedAt: ts ? new Date(ts).toISOString().slice(0, 10) : '',\n      homeoffice: !!j.remote,\n      isAgency: /recruit|staffing|personal|zeitarbeit|uberlassung/i.test(j.company_name || ''),\n      url: j.url || '', description: strip(j.description).slice(0, 6000),\n      contactEmail: '', applyChannel: 'link'\n    }});\n  }\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "normalize-arbeitnow",
+      "name": "Normalize Arbeitnow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        820
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "numberInputs": 4
+      },
+      "id": "merge-sources",
+      "name": "Merge Sources",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        220,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst pos = (cfg.titleMustMatch || [])\n  .concat(cfg.includeFullStack ? (cfg.titleMustMatchFullStack || []) : [])\n  .map(s => String(s).toLowerCase());\nconst neg = (cfg.titleExclude || []).map(s => String(s).toLowerCase());\n\n// \"Engineer\" at Isar Aerospace can mean launch vehicles; at Proxima Fusion, plumbing.\n// Broad intake at curated companies needs a hard software boundary.\nconst NOTSW = /\\b(mechanical|electrical|plumbing|mep|hvac|building services|civil|chemical|structural|thermal|propulsion|launch vehicle|ait|avionics|manufacturing|production|assembly|welding|machinist|technician|facilities|maintenance|supply chain|logistics|warehouse|driver|nurse|chef|culinary|barista|cleaner|field service|hardware|pcb|rf design)\\b/i;\n\n// Rank titles so the handful that reach expensive letter generation are the best ones.\nfunction relevance(title, j) {\n  const t = ' ' + String(title).toLowerCase() + ' ';\n  let s = 0;\n  if (/\\b(ai|a\\.i\\.|ki|künstliche intelligenz|llm|genai|generative|nlp|computer vision|bildverarbeitung|deep learning)\\b/.test(t)) s += 8;\n  if (/\\b(machine learning|ml engineer|mlops|applied scien|research engineer)\\b/.test(t)) s += 8;\n  if (/\\b(data scien|data engineer)\\b/.test(t)) s += 4;\n  // Full-stack family, EN or DE. Scored ONCE, never both - \"Fullstack-Entwickler\" matches\n  // both patterns and would otherwise double-count and outrank an ML role.\n  // Below AI on purpose: these fill the tail of the per-run cap, not the head.\n  if (/\\b(software engineer|backend|back-end|full.?stack|platform engineer)\\b/.test(t)\n      || /(softwareentwickler|software-entwickler|fullstack-?entwickler|backend-?entwickler|webentwickler|softwareingenieur)/.test(t)) s += 5;\n  if (/\\b(cloud|devops|sre|infrastructure|security)\\b/.test(t)) s += 1;\n  if (/\\b(senior|staff|principal)\\b/.test(t)) s += 1;\n  if (/\\b(manager|lead|head)\\b/.test(t)) s -= 3;\n  if (/\\b(android|ios|mobile|frontend|front-end|embedded|firmware)\\b/.test(t)) s -= 2;\n  if (j.tier === 'curated') s += 2;          // known-good employer\n  else if (j.tier === 'watchlist') s += 1;   // an employer you chose to watch\n  if (j.homeoffice) s += 1;\n  return s;\n}\n\nconst out = [];\nfor (const item of $input.all()) {\n  const j = item.json;\n  const t = ' ' + String(j.title || '').toLowerCase() + ' ';\n  if (!j.title || !j.company) continue;\n  if (/^(unbekannt|unknown|vertraulich|confidential)$/i.test(String(j.company).trim())) continue;\n  if (neg.some(n => t.includes(n))) continue;\n  if (NOTSW.test(j.title)) continue;\n  // Curated boards are pre-filtered by company, so don't also demand \"AI\" in the title.\n  // Only the hand-picked AI companies skip the title check. A watchlist employer like\n  // Siemens lists thousands of roles; there the title has to say what the role is.\n  if (j.tier !== 'curated') {\n    if (!pos.some(p => p && t.includes(p))) continue;\n    if (j.tier === 'search' && cfg.excludeAgencies && j.isAgency) continue;\n  }\n  const rel = relevance(j.title, j);\n  if (rel < (cfg.minRelevance ?? 3)) continue;     // drop clearly-unrelated engineering roles\n  out.push({ json: { ...j, relevance: rel } });\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "filter-relevant",
+      "name": "Filter Relevant",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        380
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT dedupe_key, company, status FROM job_applications\nWHERE (status IN ('sent', 'queued', 'send_failed')\n       AND applied_at > now() - make_interval(days => $1::int))\n   OR (status = 'rejected_fit'\n       AND applied_at > now() - make_interval(days => $2::int));",
+        "options": {
+          "queryReplacement": "={{ [ $('Config').first().json.rememberDays, $('Config').first().json.rejectRecheckDays ?? 30 ] }}"
+        }
+      },
+      "id": "load-history",
+      "name": "Load History",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        660,
+        380
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Durable dedupe. Replaces workflow static data, which is wiped on re-import.",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n\nconst norm = s => String(s || '').toLowerCase().replace(/ß/g, 'ss')\n  .normalize('NFKD').replace(/[̀-ͯ]/g, '')\n  .replace(/[^a-z0-9]+/g, ' ').trim();\n// One employer, many spellings: the registry says \"Nebius\", Arbeitnow \"Nebius B.V.\", the\n// Bundesagentur \"Nebius GmbH\". Without folding legal forms, one-per-company and the history\n// check both miss, and the same company gets a second application.\nconst LEGAL = /\\b(gmbh|mbh|ag|se|kg|kgaa|co|ug|ohg|e v|ev|b v|bv|n v|nv|inc|llc|ltd|limited|plc|corp|corporation|sa|sas|sarl|srl|spa|holding|group|gruppe|deutschland|germany|netherlands|nederland|europe)\\b/g;\nconst coKey = s => norm(s).replace(LEGAL, ' ').replace(/\\s+/g, ' ').trim() || norm(s);\n\n// Strip the noise that makes the same role look like three roles across boards.\nconst canon = t => norm(t)\n  .replace(/\\b(m w d|w m d|m f d|m w x|w m x|all genders|f m d|d f m)\\b/g, '')\n  .replace(/\\b(senior|sr|junior|jr|lead|staff|principal|expert)\\b/g, '')\n  .replace(/\\b(fulltime|full time|permanent|unbefristet|remote|hybrid|onsite)\\b/g, '')\n  .replace(/\\s+/g, ' ').trim();\nconst toks = s => new Set(canon(s).split(' ').filter(Boolean));\nconst jaccard = (a, b) => {\n  const A = toks(a), B = toks(b);\n  if (!A.size || !B.size) return 0;\n  let i = 0; for (const x of A) if (B.has(x)) i++;\n  return i / (A.size + B.size - i);\n};\n\n// History from Postgres. sent / queued / send_failed mean the company was approached: skip the\n// whole company. rejected_fit means only that ROLE failed the gate: skip it (and near-identical\n// reposts), but let the company's other roles compete. Without this the same highest-ranked,\n// already-rejected role wins its company's slot every morning and the better role never gets scored.\nconst approached = new Set();\nconst rejected = new Map();\nfor (const r of $('Load History').all()) {\n  const h = r.json || {};\n  if (!h.dedupe_key) continue;\n  const co = coKey(h.company);\n  if (h.status === 'rejected_fit') {\n    if (!rejected.has(co)) rejected.set(co, []);\n    rejected.get(co).push(String(h.dedupe_key).split('|').slice(1).join('|'));\n  } else {\n    approached.add(co);\n  }\n}\n// While tuning in dry-run, re-score everything so a lowered minFitScore takes effect at once.\nconst skipRejected = !cfg.dryRun;\n\n// Jobs come from Filter Relevant, NOT $input: this node's input is Load History, i.e. the\n// Postgres rows. Ranking $input scored history rows as if they were jobs.\n// Best-ranked first, so the pool keeps the strongest roles rather than whatever arrived first.\nconst ranked = $('Filter Relevant').all()\n  .filter(i => i.json && i.json.title && i.json.company)\n  .sort((a, b) => (b.json.relevance || 0) - (a.json.relevance || 0));\n\n// Scoring is cheap and runs in parallel, so score a wider pool than we write letters for.\n// Parse Score then gives the maxPerRun letter slots to the best FIT, not the best title.\nconst pool = Math.max(cfg.maxPerRun || 8, cfg.scorePoolSize || 24);\nconst picked = [];\nconst pickedCos = new Set();\nfor (const item of ranked) {\n  const j = item.json;\n  const co = coKey(j.company);\n  if (!co || approached.has(co) || pickedCos.has(co)) continue;   // one per company per run\n  if (skipRejected && (rejected.get(co) || []).some(t => jaccard(t, j.title) >= 0.6)) continue;\n  pickedCos.add(co);\n  picked.push({ ...j, companyKey: co, dedupeKey: co + '|' + canon(j.title) });\n  if (picked.length >= pool) break;\n}\n\n// Never return nothing: an empty output stops the workflow before the digest, and a morning\n// with no digest looks exactly like a morning where every source broke.\nif (!picked.length) return [{ json: { noCandidates: true } }];\nreturn picked.map(j => ({ json: j }));",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "dedupe-and-cap",
+      "name": "Dedupe & Cap",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1",
+              "leftValue": "={{ $json.needsDetail === true }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "needs-detail",
+      "name": "Needs Detail?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.detailUrl ? $json.detailUrl : 'https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/jobdetails/' + $json.ref.base64Encode() }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "jobboerse-jobsuche"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 5,
+              "batchInterval": 500
+            }
+          },
+          "timeout": 20000
+        }
+      },
+      "id": "fetch-de-detail",
+      "name": "Fetch Detail",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        300
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Detail is still v4; v5/v6 return 403."
+    },
+    {
+      "parameters": {
+        "jsCode": "// The HTTP node emits exactly one item per request, in order, errors included - so detail[i]\n// belongs to the i-th job on the IF's true branch.\nconst jobs = $('Needs Detail?').all(0);\n\nconst RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,24}/g;\nconst BLOCK = /(noreply|no-reply|donotreply|postmaster|example\\.|@arbeitsagentur\\.|\\.png|\\.jpg)/i;\nconst TLD = '(?:com|de|net|org|eu|io|ai|nl|at|ch|info|jobs|gmbh|group|tech)';\nconst strip = h => String(h || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ')\n  .replace(/&amp;/g, '&').replace(/\\s+/g, ' ').trim();\n\n// Three detail formats: Bundesagentur, Workday (jobPostingInfo), SmartRecruiters (jobAd sections).\nconst describe = d => {\n  if (d.stellenangebotsBeschreibung) return String(d.stellenangebotsBeschreibung);\n  if (d.jobPostingInfo) return strip(d.jobPostingInfo.jobDescription);\n  if (d.jobAd && d.jobAd.sections)\n    return strip(Object.values(d.jobAd.sections).map(s => (s && s.text) || '').join(' '));\n  return '';\n};\n\nreturn $input.all().map((item, i) => {\n  const base = (jobs[i] || {}).json || {};\n  const d = item.json || {};\n  const desc = describe(d);\n  let email = '';\n  // Only a Bundesagentur ad's address is an application channel. An address inside a Workday or\n  // SmartRecruiters ad is usually \"questions to recruiting@\" - mailing a CV there, when the\n  // employer wants its own portal, reads as not having read the ad.\n  if (base.source === 'bundesagentur') for (const raw of (desc.match(RE) || [])) {\n    let e = raw.replace(new RegExp('^([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+?\\\\.' + TLD + ')[A-ZÄÖÜ].*$'), '$1');\n    e = e.replace(/[.,;:)\\]]+$/, '').toLowerCase();\n    if (BLOCK.test(e)) continue;\n    email = e; break;\n  }\n  const wdLoc = d.jobPostingInfo ? [d.jobPostingInfo.location, (d.jobPostingInfo.country || {}).descriptor]\n    .filter(Boolean).join(', ') : '';\n  return { json: { ...base, description: desc.slice(0, 6000) || base.description || '',\n    city: wdLoc || base.city, url: d.postingUrl || base.url,       // SmartRecruiters: public ad URL\n    contactEmail: email,\n    applyChannel: email ? 'email' : (base.source === 'bundesagentur' ? 'link' : base.applyChannel || 'link') } };\n});",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "extract-contact",
+      "name": "Extract Contact",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst sys = 'You score how well a candidate matches a job. Return STRICT JSON only: '\n  + '{\"fit\":0,\"reason\":\"...\",\"missing\":[\"...\"]}. fit is 0-100 and must be strict: '\n  + 'score below 60 when core requirements are absent. Judge only on evidence in the CV. '\n  + 'reason: one English sentence. missing: up to 3 requirements the CV does not evidence. '\n  + 'Do NOT write a cover letter.';\n\n// All jobs at once: Score Job then fires the requests concurrently instead of one per loop turn.\nreturn $input.all().map(({ json: j }) => {\n  const usr = 'CV:\\n' + cfg.cvText + '\\n\\nJOB:\\n' + j.title + ' at ' + j.company\n    + ' (' + j.city + ')\\n\\n' + String(j.description || '').slice(0, 5000);\n  return { json: { ...j, llmPayload: {\n    model: cfg.scoreModel,\n    messages: [{ role: 'system', content: sys }, { role: 'user', content: usr }],\n    max_tokens: 700,\n    temperature: Number(cfg.scoreTemperature ?? 0),\n    reasoning: { effort: cfg.scoreEffort || 'low' },\n    response_format: { type: 'json_object' } } } };\n});",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-score-prompt",
+      "name": "Build Score Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openRouterApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Title",
+              "value": "job-agent"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.llmPayload) }}",
+        "options": {
+          "timeout": 90000,
+          "batching": {
+            "batch": {
+              "batchSize": 8,
+              "batchInterval": 1000
+            }
+          }
+        }
+      },
+      "id": "score-job",
+      "name": "Score Job",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2420,
+        380
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "OpenRouter. Cheap model gates BEFORE paying for letter generation."
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst min = cfg.minFitScore || 70;\n// Index-aligned with the HTTP node's output: one response per request, in order.\nconst jobs = $('Build Score Prompt').all();\n\nconst parse = txt => {\n  try { return JSON.parse(txt); } catch (e) {\n    const m = txt.match(/\\{[\\s\\S]*\\}/);\n    if (m) { try { return JSON.parse(m[0]); } catch (e2) {} }\n  }\n  return null;\n};\n\nconst scored = $input.all().map((item, i) => {\n  const base = { ...((jobs[i] || {}).json || {}) };\n  delete base.llmPayload;\n  const res = item.json || {};\n  let txt = ''; try { txt = res.choices[0].message.content || ''; } catch (e) {}\n  const p = parse(txt);\n  // A failed call must not look like a fit of 0: that would record the role as rejected and\n  // suppress it for rejectRecheckDays because of an API hiccup.\n  const scoreOk = !!p && p.fit !== undefined && p.fit !== null && Number.isFinite(Number(p.fit));\n  const err = res.error ? (res.error.message || JSON.stringify(res.error)) : 'unparseable response';\n  return { ...base,\n    fit: scoreOk ? Math.max(0, Math.min(100, Math.round(Number(p.fit)))) : null,\n    scoreOk, scoreError: scoreOk ? '' : String(err).slice(0, 200),\n    scoreReason: scoreOk ? String(p.reason || '') : '',\n    missing: scoreOk && Array.isArray(p.missing) ? p.missing.slice(0, 3).map(String) : [],\n    letter: '', subject: '', lang: '' };\n});\n\n// Letter slots go to the best FIT among passers (relevance breaks ties) - not to whichever\n// passer happened to have the best title.\nconst passers = scored.filter(s => s.scoreOk && s.fit >= min)\n  .sort((a, b) => (b.fit - a.fit) || ((b.relevance || 0) - (a.relevance || 0)));\nconst letterSlots = new Set(passers.slice(0, cfg.maxPerRun || 8));\n\nreturn scored.map(s => ({ json: { ...s,\n  stage: !s.scoreOk ? 'score_failed'\n       : s.fit < min ? 'rejected_fit'\n       : letterSlots.has(s) ? 'letter'\n       : 'deferred' } }));",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "parse-score",
+      "name": "Parse Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "p1",
+              "leftValue": "={{ $json.stage }}",
+              "rightValue": "letter",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "passes-fit",
+      "name": "Passes Fit?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2860,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// All passers at once: Generate Letter then runs the requests concurrently.\nreturn $input.all().map(({ json: j }) => {\n  const desc = String(j.description || '');\n  const germanish = /(wir suchen|deine aufgaben|ihre aufgaben|abgeschlossenes|kenntnisse|unbefristet|m\\/w\\/d|bewerbung)/i.test(desc);\n  const englishish = /(you will|your profile|we offer|responsibilities|requirements)/i.test(desc);\n  const lang = j.country === 'NL' ? 'English' : (germanish && !englishish ? 'German' : 'English');\n\n  // German employers routinely filter on these two being absent before a human reads anything.\n  const conventions = (lang === 'German' && cfg.includeSalaryInGerman)\n    ? 'Close with a separate final line stating Gehaltsvorstellung: ca. '\n      + Number(cfg.salaryExpectationEur).toLocaleString('de-DE') + ' EUR brutto/Jahr, and '\n      + 'Eintrittstermin: ' + cfg.earliestStart + ' (Kündigungsfrist: ' + cfg.noticePeriod + ').'\n    : 'Do not mention salary expectations.';\n\n  const showcase = cfg.showcaseMode ? [\n    'SHOWCASE MODE. The candidate found this role with an agent pipeline he built, and this letter',\n    'was drafted by it. Say so plainly and early - in the opening paragraph - and frame it as the',\n    'point, not an apology: for an AI-engineering role the system is a working sample of the exact',\n    'skill being hired for. Never pretend the letter was hand-written.',\n    'Devote the SECOND paragraph to the system, drawn ONLY from SYSTEM FACTS below.',\n    'Select the SINGLE fact most relevant to THIS posting and connect it explicitly to a requirement',\n    'the ad names. Do not recite the fact list - most of it is irrelevant to any given role.',\n    'Example of the reasoning: a posting about retrieval or evaluation -> the two-stage scoring gate;',\n    'a posting about data pipelines -> the dedupe and Postgres design; a posting about integrations',\n    '-> the four-source normalisation. Pick one, say why it was built that way, name the tradeoff.',\n    'Include the honest limitation in substance; it is evidence of real investigation.',\n    'Keep the THIRD paragraph on why this specific company and role, using the posting.',\n    'Tone: an engineer describing a build, not a pitch. No hype words, no \"passionate\", no \"excited\".',\n    'Do not claim the system got results it has not got. It is a tool he built, not a proven funnel.',\n    cfg.portfolioUrl\n      ? 'Reference the write-up at ' + cfg.portfolioUrl + ' once, in the sign-off.'\n      : 'Do NOT include any URL, repository link or portfolio link anywhere. None exists. '\n        + 'Do not invent one, and do not offer to send one. The LinkedIn profile in the '\n        + 'sign-off is the only link.'\n  ].join(' ') : '';\n\n  const sys = [\n    'You write short, specific job application cover letters.',\n    'Return STRICT JSON only:',\n    '{\"subject\":\"...\",\"body\":\"...\",\"talkingPoints\":[\"...\"],\"linkedinNote\":\"...\",\"angle\":\"...\"}',\n    'Write subject and body in ' + lang + '.',\n    'talkingPoints: 2-3 items, each mapping ONE named CV project to ONE requirement the posting',\n    'actually states. Format \"CV project -> posting requirement\". English. No filler.',\n    'linkedinNote: a note the candidate will send BY HAND to an engineer or hiring lead at this',\n    'company. MAX 300 characters (LinkedIn connection-request limit). Written as a person, not a bot:',\n    'one line on the role, one concrete hook from the CV, one short ask. No greeting padding, no',\n    'hashtags, no \"I hope this finds you well\". English unless the posting is German.',\n    'angle: one English sentence - the single strongest reason this candidate fits this role.',\n    'HARD RULE: never claim experience, tools or years absent from the CV. No invented metrics.',\n    cfg.showcaseMode\n      ? 'body: 230-320 words, plain text, no markdown. Greeting, three paragraphs, sign-off with name, phone and LinkedIn.'\n      : 'body: 180-260 words, plain text, no markdown. Greeting, three short paragraphs, sign-off with name, phone and LinkedIn.',\n    cfg.showcaseMode ? showcase : 'Tie 2-3 concrete CV projects to requirements actually named in the posting.',\n    'COMPANY-SPECIFIC, MANDATORY: every paragraph must contain something true of THIS company and',\n    'THIS posting - the product, the team, the stack, a named requirement. Two letters sent to two',\n    'different companies must share no sentence. If the posting is thin on detail, say less rather',\n    'than padding with generic praise. Never describe the employer in terms that would fit any',\n    'employer (\"innovative\", \"market leader\", \"exciting projects\").',\n    conventions,\n    'A prior screening step judged the fit; do not restate a score.'\n  ].join(' ');\n\n  const usr = ['CV:', cfg.cvText, '',\n    'CONTACT: ' + cfg.myName + ', ' + cfg.myPhone + ', ' + cfg.myEmail + ', ' + cfg.myLinkedIn, '',\n    'JOB: ' + j.title + ' at ' + j.company + ' (' + j.city + ', ' + j.country + ')',\n    'Link: ' + j.url, '',\n    'Known gaps to address honestly, not hide: ' + ((j.missing || []).join('; ') || 'none'), '',\n    cfg.showcaseMode ? 'SYSTEM FACTS (the ONLY permitted source for claims about the pipeline):' : '',\n    cfg.showcaseMode ? cfg.showcaseFacts : '',\n    cfg.showcaseMode ? 'This role was surfaced by source: ' + j.source : '', '',\n    'Description:', desc.slice(0, 6000) || '(no description available)'].join('\\n');\n\n  return { json: { ...j, lang, llmPayload: {\n    model: cfg.letterModel,\n    messages: [{ role: 'system', content: sys }, { role: 'user', content: usr }],\n    max_tokens: 2500,\n    temperature: Number(cfg.letterTemperature ?? 0.4),\n    reasoning: { effort: cfg.letterEffort || 'low' },\n    response_format: { type: 'json_object' } } } };\n});",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-letter-prompt",
+      "name": "Build Letter Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3080,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openRouterApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Title",
+              "value": "job-agent"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.llmPayload) }}",
+        "options": {
+          "timeout": 180000,
+          "batching": {
+            "batch": {
+              "batchSize": 4,
+              "batchInterval": 1000
+            }
+          }
+        }
+      },
+      "id": "generate-letter",
+      "name": "Generate Letter",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3300,
+        300
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "OpenRouter. Letter model."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Index-aligned with the HTTP node's output: one response per request, in order.\nconst jobs = $('Build Letter Prompt').all();\n\nconst parse = txt => {\n  try { return JSON.parse(txt); } catch (e) {\n    const m = txt.match(/\\{[\\s\\S]*\\}/);\n    if (m) { try { return JSON.parse(m[0]); } catch (e2) {} }\n  }\n  return {};\n};\n\nreturn $input.all().map((item, i) => {\n  const base = { ...((jobs[i] || {}).json || {}) };\n  delete base.llmPayload;\n  const res = item.json || {};\n  let txt = ''; try { txt = res.choices[0].message.content || ''; } catch (e) {}\n  const p = parse(txt);\n  const letter = String(p.body || '').trim();\n  let note = String(p.linkedinNote || '').trim();\n  // LinkedIn connection requests hard-cap at 300 chars; truncate on a word boundary.\n  if (note.length > 300) note = note.slice(0, 297).replace(/\\s+\\S*$/, '') + '...';\n  const llmOk = letter.length > 80;\n  return { json: { ...base, letter,\n    subject: String(p.subject || ('Application: ' + base.title)).slice(0, 180),\n    talkingPoints: Array.isArray(p.talkingPoints) ? p.talkingPoints.slice(0, 3).map(String) : [],\n    linkedinNote: note,\n    angle: String(p.angle || ''),\n    letterError: llmOk ? '' : String(res.error ? (res.error.message || JSON.stringify(res.error))\n                                                 : 'empty or unparseable letter').slice(0, 200),\n    llmOk } };\n});",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "parse-letter",
+      "name": "Parse Letter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3520,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a1",
+              "leftValue": "={{ $json.contactEmail }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a2",
+              "leftValue": "={{ $json.llmOk }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a3",
+              "leftValue": "={{ $('Config').first().json.dryRun }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "auto-send",
+      "name": "Auto-send?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3740,
+        300
+      ],
+      "notes": "ATS roles never have an email -> they always take the fast-path queue."
+    },
+    {
+      "parameters": {
+        "amount": "={{ $json.gapSeconds }}",
+        "unit": "seconds"
+      },
+      "id": "send-jitter",
+      "name": "Send Gap",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4400,
+        180
+      ],
+      "notes": "Eight mails at 07:30:00 reads as a bot. Spread them."
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $('Config').first().json.cvPath }}",
+        "options": {}
+      },
+      "id": "read-cv",
+      "name": "Read CV",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        4620,
+        180
+      ],
+      "notes": "Self-hosted only. On Cloud swap for Google Drive / HTTP download."
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "toRecipients": "={{ $('Send Loop').first().json.contactEmail }}",
+        "subject": "={{ $('Send Loop').first().json.subject }}",
+        "bodyContent": "={{ $('Send Loop').first().json.letter }}",
+        "additionalFields": {
+          "bodyContentType": "Text",
+          "replyTo": "={{ $('Config').first().json.myEmail }}",
+          "attachments": {
+            "attachments": [
+              {
+                "binaryPropertyName": "data"
+              }
+            ]
+          }
+        }
+      },
+      "id": "send-application",
+      "name": "Send Application",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        4840,
+        180
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Graph API + OAuth2. SMTP app passwords stopped working 30 Apr 2026."
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n\n// Every job arrives here exactly once, from one of four places: the fit gate, the manual\n// queue, the send loop, or the \"nothing to do today\" sentinel.\n// Suppression (Load History): sent / queued / send_failed block the company, rejected_fit\n// blocks the role. score_failed, letter_failed and deferred block nothing - retried next run.\nconst statusOf = j => {\n  if (j.stage === 'score_failed') return 'score_failed';\n  if (j.stage === 'rejected_fit') return 'rejected_fit';\n  if (j.stage === 'deferred') return 'deferred';\n  if (j.sendAttempted) return j.sendOk ? 'sent' : 'send_failed';\n  if (!j.llmOk) return 'letter_failed';\n  return cfg.dryRun ? 'dry_run' : 'queued';\n};\n\nconst out = [];\nfor (const { json: j } of $input.all()) {\n  if (j.noCandidates) continue;\n  const status = statusOf(j);\n  out.push({ json: { ...j, status, row: {\n    dedupe_key: j.dedupeKey, source: j.source, company: j.company, title: j.title,\n    city: j.city, country: j.country, region: j.region, url: j.url,\n    contact_email: j.contactEmail || null, fit: j.fit ?? null,\n    score_reason: j.scoreReason || j.scoreError || j.letterError || j.sendError || null,\n    lang: j.lang || null, letter: j.letter || null, channel: j.applyChannel || null, status\n  } } });\n}\n// Keep one item flowing so Save and the digest still run on an empty day. Its row has no\n// dedupe_key, and the INSERT's WHERE clause skips it.\nif (!out.length) return [{ json: { noCandidates: true, status: 'none', row: {} } }];\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "record-outcome",
+      "name": "Record Outcome",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5320,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO job_applications\n  (dedupe_key, source, company, title, city, country, region, url,\n   contact_email, fit, score_reason, lang, letter, channel, status)\nSELECT d.dedupe_key, d.source, d.company, d.title, d.city, d.country, d.region, d.url,\n       d.contact_email, d.fit, d.score_reason, d.lang, d.letter, d.channel, d.status\nFROM jsonb_to_record($1::jsonb) AS d(\n  dedupe_key text, source text, company text, title text, city text, country text,\n  region text, url text, contact_email text, fit int, score_reason text, lang text,\n  letter text, channel text, status text)\nWHERE d.dedupe_key IS NOT NULL\nON CONFLICT (dedupe_key) DO UPDATE\n  SET status = EXCLUDED.status, fit = EXCLUDED.fit, score_reason = EXCLUDED.score_reason,\n      lang = EXCLUDED.lang, channel = EXCLUDED.channel,\n      letter = COALESCE(EXCLUDED.letter, job_applications.letter),\n      contact_email = COALESCE(EXCLUDED.contact_email, job_applications.contact_email),\n      applied_at = now();",
+        "options": {
+          "queryReplacement": "={{ JSON.stringify($json.row) }}"
+        }
+      },
+      "id": "save-application",
+      "name": "Save Application",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        5540,
+        560
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Single jsonb parameter - no string interpolation, no injection surface.",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "toRecipients": "={{ $('Config').first().json.myEmail }}",
+        "subject": "={{ $json.subject }}",
+        "bodyContent": "={{ $json.html }}",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "id": "send-digest",
+      "name": "Send Digest",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        5980,
+        560
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT name, ats, token, regions, options FROM employers WHERE active;",
+        "options": {}
+      },
+      "id": "238a7d19-4201-4004-9fe6-7877010e5536",
+      "name": "Load Employers",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -440,
+        -40
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "m1",
+              "leftValue": "={{ $json.method }}",
+              "rightValue": "POST",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7cd1bbd7-3488-4dc8-99a6-d45398c08e83",
+      "name": "Is POST?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        0,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.url }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body || {}) }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 4,
+              "batchInterval": 500
+            }
+          },
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "181e1412-2f9d-4ccd-8936-62f69c6c0912",
+      "name": "Fetch Workday",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        -120
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "numberInputs": 2
+      },
+      "id": "28c244f1-98a7-47d5-9f7e-6057f9850dc9",
+      "name": "Merge Boards",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        440,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Layer 3 feed: every employer behind a RELEVANT search-source ad (Bundesagentur, Adzuna,\n// Arbeitnow) becomes a discovery candidate. The Employer Discovery workflow later tries to find\n// its own careers feed; if it does, the company joins the `employers` watchlist.\nconst norm = s => String(s || '').toLowerCase().replace(/ß/g, 'ss')\n  .normalize('NFKD').replace(/[̀-ͯ]/g, '')\n  .replace(/[^a-z0-9]+/g, ' ').trim();\nconst LEGAL = /\\b(gmbh|mbh|ag|se|kg|kgaa|co|ug|ohg|e v|ev|b v|bv|n v|nv|inc|llc|ltd|limited|plc|corp|corporation|sa|sas|sarl|srl|spa|holding|group|gruppe|deutschland|germany|netherlands|nederland|europe)\\b/g;\nconst coKey = s => norm(s).replace(LEGAL, ' ').replace(/\\s+/g, ' ').trim() || norm(s);\n// Staffing agencies post for unnamed clients - their own careers site is not where the job is.\nconst AGENCY = /personal|recruit|zeitarbeit|staffing|arbeitnehmer|hays|randstad|manpower|adecco|gulp|solcom|etengo|computer futures|experis|brunel|ferchau|amadeus fire|\\bdis ag\\b|jobs?\\b/i;\n\nconst rows = new Map();\nfor (const { json: j } of $input.all()) {\n  if (!j || !j.company || j.tier !== 'search' || j.isAgency || AGENCY.test(j.company)) continue;\n  const k = coKey(j.company);\n  if (!k) continue;\n  // ads = relevant ads this run: a rough size signal, so discovery can try smaller companies first\n  const r = rows.get(k) || { name: String(j.company).trim(), norm_name: k, regions: [], sources: [], ads: 0 };\n  r.ads++;\n  if (j.region && !r.regions.includes(j.region)) r.regions.push(j.region);\n  if (j.source && !r.sources.includes(j.source)) r.sources.push(j.source);\n  rows.set(k, r);\n}\nreturn rows.size ? [{ json: { rows: [...rows.values()] } }] : [];"
+      },
+      "id": "ed02d0d5-1799-4a61-bd03-81aa61b2f5dd",
+      "name": "Employer Candidates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO employer_candidates (name, norm_name, regions, sources, ads)\nSELECT c.name, c.norm_name, c.regions, c.sources, c.ads\nFROM jsonb_to_recordset($1::jsonb)\n  AS c(name text, norm_name text, regions text[], sources text[], ads int)\nON CONFLICT (norm_name) DO UPDATE SET\n  last_seen = now(), seen_count = employer_candidates.seen_count + 1,\n  ads = GREATEST(employer_candidates.ads, EXCLUDED.ads),\n  regions = ARRAY(SELECT DISTINCT unnest(employer_candidates.regions || EXCLUDED.regions)),\n  sources = ARRAY(SELECT DISTINCT unnest(employer_candidates.sources || EXCLUDED.sources));",
+        "options": {
+          "queryReplacement": "={{ [ JSON.stringify($json.rows) ] }}"
+        }
+      },
+      "id": "a2e0ff99-78a8-4afb-bb4f-af6bb6556272",
+      "name": "Save Candidates",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        880,
+        600
+      ],
+      "onError": "continueRegularOutput",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "h1",
+              "leftValue": "={{ !$json.noCandidates }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "450b33ca-8a07-427d-9147-c5cbb045ff7b",
+      "name": "Has Candidates?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "numberInputs": 2
+      },
+      "id": "e7af2210-be43-4a5e-92df-d22183d17b16",
+      "name": "Merge Detail",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1980,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "numberInputs": 4
+      },
+      "id": "8c8b48da-e2b1-4524-a447-738ba74cf388",
+      "name": "Merge Outcomes",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        5100,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nconst day = new Date().toISOString().slice(0, 10);\n\n// Outcomes come from Record Outcome, not $input: this node's input is the Postgres INSERT\n// result - {success:true} per row, none of the job fields. Reading $input here is what made\n// earlier digests report \"0 sent\" with blank cards after mails had actually gone out.\nconst items = $('Record Outcome').all().map(i => i.json).filter(j => !j.noCandidates);\nconst saveErrors = $input.all().filter(i => i.json && i.json.error).length;\nconst by = (...s) => items.filter(i => s.includes(i.status));\nconst sent = by('sent'), failed = by('send_failed'), queued = by('queued', 'dry_run');\nconst letterFailed = by('letter_failed'), deferred = by('deferred');\nconst dropped = by('rejected_fit'), scoreFailed = by('score_failed');\n\n// Count sources at intake, not in the shortlist: the shortlist is ~8 roles and routinely\n// holds none from some source, which used to raise a false \"returned nothing\" every day.\nconst fetched = {};\nfor (const i of $('Merge Sources').all()) {\n  const s = String(i.json.source || '').split(':')[0];\n  if (s) fetched[s] = (fetched[s] || 0) + 1;\n}\nconst relevant = $('Filter Relevant').all().filter(i => i.json && i.json.title).length;\nconst expected = ['ats', 'bundesagentur', 'arbeitnow'];\nif (cfg.useAdzuna && (cfg.regions || []).includes('amsterdam')) expected.push('adzuna');\nconst silent = expected.filter(s => !fetched[s]);\n// Career feeds that errored: a watchlist employer switched systems, a board was renamed, ...\n// (a fetch node that had nothing to do never ran, and referencing it would throw)\nconst safe = f => { try { return f(); } catch (e) { return []; } };\nconst failedOf = (fetchNode, branch) => {\n  const metas = safe(() => $('Is POST?').all(branch));\n  return safe(() => $(fetchNode).all())\n    .map((f, i) => (f.json && f.json.error) ? ((metas[i] || {}).json || {}).name : null);\n};\nconst failedFeeds = [...new Set(failedOf('Fetch Workday', 0).concat(failedOf('Fetch ATS Board', 1)).filter(Boolean))];\n\nconst box = (bg, border, html) => `<div style=\"background:${bg};border:1px solid ${border};`\n  + `padding:10px;border-radius:6px;margin-bottom:16px;\">${html}</div>`;\nconst alerts = [\n  silent.length ? box('#ffe8e8', '#e88', '<b>Source returned nothing:</b> ' + esc(silent.join(', '))\n    + ' - check whether the API changed.') : '',\n  saveErrors ? box('#ffe8e8', '#e88', '<b>' + saveErrors + ' history row(s) failed to save.</b> '\n    + 'Those companies are not suppressed and may be contacted again - check Postgres.') : '',\n  failed.length ? box('#ffe8e8', '#e88', '<b>' + failed.length + ' mail(s) failed to send.</b> '\n    + 'Letters are below - send them by hand or fix the Outlook credential.') : '',\n  failedFeeds.length ? box('#fff4d6', '#e8c766', '<b>Career feeds that failed:</b> ' + esc(failedFeeds.join(', '))\n    + ' - check their row in the <code>employers</code> table.') : ''\n].join('');\nconst banner = cfg.dryRun ? box('#fff4d6', '#e8c766', '<b>DRY RUN</b> - nothing sent. Set '\n  + '<code>dryRun</code> to false in Config to arm.') : '';\n\nconst card = j => `\n  <div style=\"border:1px solid #e2e2e2;border-radius:8px;padding:14px;margin:0 0 14px;\">\n    <div style=\"font-size:16px;font-weight:600;\">${esc(j.title)}</div>\n    <div style=\"color:#555;\">${esc(j.company)} &middot; ${esc(j.city)}\n      &middot; fit <b>${esc(j.fit)}</b>${j.homeoffice ? ' &middot; remote/hybrid' : ''}\n      &middot; <span style=\"color:#888;\">${esc(j.source)}</span></div>\n    ${j.sendError ? '<div style=\"color:#a00;font-size:13px;margin:4px 0;\"><b>Send failed:</b> '\n      + esc(j.sendError) + '</div>' : ''}\n    <div style=\"color:#777;font-size:13px;margin:4px 0;\">${esc(j.scoreReason)}</div>\n    ${(j.missing || []).length ? '<div style=\"color:#a33;font-size:12px;\">gaps: '\n      + esc((j.missing || []).join(', ')) + '</div>' : ''}\n    <div style=\"margin:6px 0;\"><a href=\"${esc(j.url)}\">Open &amp; apply &rarr;</a>\n      ${j.contactEmail ? ' &middot; <a href=\"mailto:' + esc(j.contactEmail) + '\">' + esc(j.contactEmail) + '</a>' : ''}</div>\n    ${j.angle ? '<div style=\"margin:6px 0;padding:8px 10px;background:#f2f7ff;border-left:3px solid #0b57d0;'\n      + 'border-radius:4px;font-size:13px;\"><b>Angle:</b> ' + esc(j.angle) + '</div>' : ''}\n    ${(j.talkingPoints || []).length ? '<div style=\"font-size:13px;margin:6px 0;\"><b>Your evidence</b>'\n      + '<ul style=\"margin:4px 0 0;padding-left:18px;\">'\n      + j.talkingPoints.map(t => '<li>' + esc(t) + '</li>').join('') + '</ul></div>' : ''}\n    ${j.linkedinNote ? '<details><summary style=\"cursor:pointer;color:#0a66c2;\">LinkedIn note ('\n      + esc(j.linkedinNote.length) + '/300) - send this yourself</summary><pre style=\"white-space:pre-wrap;'\n      + 'font:13px/1.5 -apple-system,Segoe UI,sans-serif;background:#f3f8fd;padding:10px;'\n      + 'border-radius:6px;border:1px solid #cfe2f5;\">' + esc(j.linkedinNote) + '</pre>'\n      + '<div style=\"font-size:12px;color:#777;padding:0 2px 8px;\">Find whoever leads engineering '\n      + 'or AI at ' + esc(j.company) + ' on LinkedIn and send this by hand. Not automated - '\n      + 'person-to-person is the point.</div></details>' : ''}\n    ${j.letter ? '<details><summary style=\"cursor:pointer;color:#0b57d0;\">Cover letter ('\n      + esc(j.lang) + ') - copy &amp; paste</summary><pre style=\"white-space:pre-wrap;'\n      + 'font:13px/1.5 -apple-system,Segoe UI,sans-serif;background:#fafafa;padding:10px;'\n      + 'border-radius:6px;\">' + esc(j.letter) + '</pre></details>' : ''}\n  </div>`;\n\nconst list = (title, rows, fmt) => rows.length\n  ? '<h3 style=\"color:#888;\">' + title + '</h3><ul style=\"color:#888;font-size:13px;\">'\n    + rows.map(j => '<li>' + fmt(j) + '</li>').join('') + '</ul>' : '';\n\nconst empty = items.length ? '' : '<p>No new candidates today. ' + relevant + ' relevant roles '\n  + 'were found, but every company is already approached or its roles were already rejected. '\n  + 'Widen <code>regions</code>/<code>keywords</code> or lower <code>minRelevance</code> for more.</p>';\n\nconst html = `<div style=\"font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;max-width:760px;margin:auto;color:#111;\">\n  <h2 style=\"margin:0 0 4px;\">Job run - ${day}</h2>\n  <p style=\"color:#666;margin:0 0 16px;\">${relevant} relevant &middot; ${items.length} scored\n    &middot; ${sent.length} emailed &middot; ${queued.length} ready to apply\n    &middot; ${dropped.length} below fit threshold</p>\n  ${alerts}${banner}${empty}\n  ${sent.length ? '<h3>Emailed automatically</h3>' + sent.map(card).join('') : ''}\n  ${failed.length ? '<h3 style=\"color:#a00;\">Send failed - apply by hand</h3>' + failed.map(card).join('') : ''}\n  ${queued.length ? '<h3>Ready to apply (~30s each)</h3>' + queued.map(card).join('') : ''}\n  ${list('Passed fit, held for a later run (cap is ' + esc(cfg.maxPerRun || 8) + ' letters/run)', deferred,\n    j => esc(j.title) + ' - ' + esc(j.company) + ' (fit ' + esc(j.fit) + ')')}\n  ${list('Letter generation failed - retried next run', letterFailed,\n    j => esc(j.title) + ' - ' + esc(j.company) + ': ' + esc(j.letterError))}\n  ${list('Scoring failed - retried next run', scoreFailed,\n    j => esc(j.title) + ' - ' + esc(j.company) + ': ' + esc(j.scoreError))}\n  ${list('Below threshold', dropped,\n    j => esc(j.title) + ' - ' + esc(j.company) + ' (fit ' + esc(j.fit) + ')')}\n  <p style=\"color:#888;font-size:12px;\">fetched by source: ${esc(JSON.stringify(fetched))}</p>\n</div>`;\n\nconst flag = (silent.length || saveErrors || failed.length) ? '[Jobs][CHECK] ' : '[Jobs] ';\nreturn [{ json: { subject: flag + `${sent.length} emailed, ${queued.length} to apply - ` + day, html } }];"
+      },
+      "id": "ff648e62-7d2c-4797-a8de-8436f7cfd1fa",
+      "name": "Build Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5760,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// Spacing between mails, not a delay before each one: the first goes immediately, each later\n// one waits a random lo..hi seconds after the previous. The old per-mail wait of up to\n// 25-40 MINUTES made a 3-mail run take over an hour. Under 65 s n8n also holds the wait in\n// memory instead of parking the whole execution in the database and resuming it.\nconst lo = Math.max(0, Number(cfg.sendGapMinSeconds ?? 20));\nconst hi = Math.max(lo, Number(cfg.sendGapMaxSeconds ?? 55));\nreturn $input.all().map((item, i) => ({ json: { ...item.json,\n  gapSeconds: i === 0 ? 0 : Math.round(lo + Math.random() * (hi - lo)) } }));"
+      },
+      "id": "4e1fc200-d3fb-42c3-9ddc-bbfd6e677c40",
+      "name": "Plan Sends",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3960,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "f5ed3bdb-65fb-4cca-b36f-5f6de16ab19b",
+      "name": "Send Loop",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        4180,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Read CV replaces the item's JSON with file metadata, so the job comes from the loop itself.\nconst base = $('Send Loop').first().json;\nconst res = $input.first().json || {};\n// Graph returns {success:true}; SMTP returned messageId/accepted. Accept either.\nconst sendOk = res.success === true || !!res.messageId\n  || (Array.isArray(res.accepted) && res.accepted.length > 0);\nconst err = res.error ? (res.error.message || res.error.description || JSON.stringify(res.error)) : '';\nreturn [{ json: { ...base, sendAttempted: true, sendOk,\n  sendError: sendOk ? '' : String(err || 'no confirmation from the mail API').slice(0, 300) } }];"
+      },
+      "id": "10290628-b22e-420f-80e8-bad9f1d34c49",
+      "name": "Mark Sent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5060,
+        180
+      ]
+    }
+  ],
+  "connections": {
+    "Every Morning": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Now": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Load Employers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build DE Queries",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build NL Queries",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build Arbeitnow Pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build DE Queries": {
+      "main": [
+        [
+          {
+            "node": "Fetch Bundesagentur",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Bundesagentur": {
+      "main": [
+        [
+          {
+            "node": "Normalize DE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build NL Queries": {
+      "main": [
+        [
+          {
+            "node": "Fetch Adzuna",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Adzuna": {
+      "main": [
+        [
+          {
+            "node": "Normalize NL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Arbeitnow Pages": {
+      "main": [
+        [
+          {
+            "node": "Fetch Arbeitnow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Arbeitnow": {
+      "main": [
+        [
+          {
+            "node": "Normalize Arbeitnow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Relevant": {
+      "main": [
+        [
+          {
+            "node": "Load History",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Employer Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load History": {
+      "main": [
+        [
+          {
+            "node": "Dedupe & Cap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize ATS": {
+      "main": [
+        [
+          {
+            "node": "Merge Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize DE": {
+      "main": [
+        [
+          {
+            "node": "Merge Sources",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Normalize NL": {
+      "main": [
+        [
+          {
+            "node": "Merge Sources",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Normalize Arbeitnow": {
+      "main": [
+        [
+          {
+            "node": "Merge Sources",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Merge Sources": {
+      "main": [
+        [
+          {
+            "node": "Filter Relevant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Employers": {
+      "main": [
+        [
+          {
+            "node": "ATS Registry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ATS Registry": {
+      "main": [
+        [
+          {
+            "node": "Is POST?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is POST?": {
+      "main": [
+        [
+          {
+            "node": "Fetch Workday",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fetch ATS Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Workday": {
+      "main": [
+        [
+          {
+            "node": "Merge Boards",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch ATS Board": {
+      "main": [
+        [
+          {
+            "node": "Merge Boards",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Boards": {
+      "main": [
+        [
+          {
+            "node": "Normalize ATS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Employer Candidates": {
+      "main": [
+        [
+          {
+            "node": "Save Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dedupe & Cap": {
+      "main": [
+        [
+          {
+            "node": "Has Candidates?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Candidates?": {
+      "main": [
+        [
+          {
+            "node": "Needs Detail?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Outcomes",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Needs Detail?": {
+      "main": [
+        [
+          {
+            "node": "Fetch Detail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Detail",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Fetch Detail": {
+      "main": [
+        [
+          {
+            "node": "Extract Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Contact": {
+      "main": [
+        [
+          {
+            "node": "Merge Detail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Detail": {
+      "main": [
+        [
+          {
+            "node": "Build Score Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Score Prompt": {
+      "main": [
+        [
+          {
+            "node": "Score Job",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Job": {
+      "main": [
+        [
+          {
+            "node": "Parse Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Score": {
+      "main": [
+        [
+          {
+            "node": "Passes Fit?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Passes Fit?": {
+      "main": [
+        [
+          {
+            "node": "Build Letter Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Outcomes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Letter Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Letter": {
+      "main": [
+        [
+          {
+            "node": "Parse Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Letter": {
+      "main": [
+        [
+          {
+            "node": "Auto-send?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-send?": {
+      "main": [
+        [
+          {
+            "node": "Plan Sends",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Outcomes",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Plan Sends": {
+      "main": [
+        [
+          {
+            "node": "Send Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Loop": {
+      "main": [
+        [
+          {
+            "node": "Merge Outcomes",
+            "type": "main",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "node": "Send Gap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Gap": {
+      "main": [
+        [
+          {
+            "node": "Read CV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read CV": {
+      "main": [
+        [
+          {
+            "node": "Send Application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Application": {
+      "main": [
+        [
+          {
+            "node": "Mark Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Sent": {
+      "main": [
+        [
+          {
+            "node": "Send Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Outcomes": {
+      "main": [
+        [
+          {
+            "node": "Record Outcome",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Outcome": {
+      "main": [
+        [
+          {
+            "node": "Save Application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Application": {
+      "main": [
+        [
+          {
+            "node": "Build Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Digest": {
+      "main": [
+        [
+          {
+            "node": "Send Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "tags": []
+}

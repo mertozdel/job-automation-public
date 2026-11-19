@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Job Applications</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='4' width='14' height='10' rx='2' fill='%232f5bd3'/%3E%3Crect x='5' y='1.5' width='6' height='4' rx='1' fill='none' stroke='%232f5bd3' stroke-width='1.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Job applications</h1>
+    <nav class="tabs" id="tabs" role="tablist">
+      <button role="tab" data-tab="todo" aria-selected="true">To apply <span class="count"></span></button>
+      <button role="tab" data-tab="applied">Applied <span class="count"></span></button>
+      <button role="tab" data-tab="emailed">Emailed <span class="count"></span></button>
+      <button role="tab" data-tab="hidden">Hidden <span class="count"></span></button>
+    </nav>
+    <div class="top-tools">
+      <a class="btn ghost" id="cv-open" href="/cv" target="_blank" rel="noopener">CV</a>
+      <button class="btn ghost" id="cv-path" title="Copy the CV's file path, to paste into an upload dialog">Copy CV path</button>
+      <button class="btn ghost icon" id="refresh" title="Reload from the database" aria-label="Refresh">&#x21bb;</button>
+    </div>
+  </header>
+
+  <div class="error" id="error" hidden></div>
+
+  <main class="layout">
+    <section class="list-pane" aria-label="Jobs">
+      <div class="filters">
+        <input type="search" id="search" placeholder="Search company, role, city" autocomplete="off">
+        <div class="chips" id="regions"></div>
+        <div class="filter-row">
+          <label class="toggle"><input type="checkbox" id="letter-only"> Letter ready only</label>
+          <select id="sort" aria-label="Sort">
+            <option value="fit">Best fit</option>
+            <option value="new">Newest</option>
+            <option value="company">Company A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="selbar" id="selbar">
+        <label class="selall"><input type="checkbox" id="select-all"> <span id="sel-label">Select all</span></label>
+        <div class="sel-actions" id="sel-actions"></div>
+      </div>
+
+      <ul class="list" id="list" role="listbox" aria-label="Jobs"></ul>
+      <p class="empty" id="empty" hidden></p>
+
+      <footer class="keys">
+        <kbd>j</kbd> <kbd>k</kbd> move · <kbd>o</kbd> open + copy · <kbd>a</kbd> applied ·
+        <kbd>x</kbd> select · <kbd>h</kbd> hide · <kbd>/</kbd> search
+      </footer>
+    </section>
+
+    <section class="detail-pane" id="detail" aria-live="polite"></section>
+  </main>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

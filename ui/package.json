@@ -1,0 +1,12 @@
+{
+  "name": "job-automation-ui",
+  "private": true,
+  "description": "Local UI for the apply-yourself list: browse, apply, mark applied.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js --open"
+  },
+  "dependencies": {
+    "pg": "^8.16.0"
+  }
+}

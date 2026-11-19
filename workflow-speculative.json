@@ -1,0 +1,934 @@
+{
+  "name": "Speculative outreach - showcase framing",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                2
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "weekly",
+      "name": "Weekly",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -880,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "run-now",
+      "name": "Run Now",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "n1",
+              "name": "myName",
+              "value": "Your Name",
+              "type": "string"
+            },
+            {
+              "id": "n2",
+              "name": "myEmail",
+              "value": "you@example.com",
+              "type": "string"
+            },
+            {
+              "id": "n3",
+              "name": "myPhone",
+              "value": "+49 000 0000000",
+              "type": "string"
+            },
+            {
+              "id": "n4",
+              "name": "myLinkedIn",
+              "value": "https://www.linkedin.com/in/your-profile",
+              "type": "string"
+            },
+            {
+              "id": "n5",
+              "name": "cvPath",
+              "value": "C:/path/to/job-automation/cv/CV.pdf",
+              "type": "string"
+            },
+            {
+              "id": "s1",
+              "name": "dryRun",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "s2",
+              "name": "maxPerRun",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "s3",
+              "name": "rememberDays",
+              "value": 365,
+              "type": "number"
+            },
+            {
+              "id": "sendGapMinSeconds",
+              "name": "sendGapMinSeconds",
+              "value": 20,
+              "type": "number"
+            },
+            {
+              "id": "sendGapMaxSeconds",
+              "name": "sendGapMaxSeconds",
+              "value": 55,
+              "type": "number"
+            },
+            {
+              "id": "s5",
+              "name": "addressTiers",
+              "value": "={{ [\"careers\",\"people\",\"general\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "x2",
+              "name": "portfolioUrl",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "x3",
+              "name": "showcaseFacts",
+              "value": "n8n orchestration, models via OpenRouter (deepseek-v4-flash). Four public job sources: a 55-company Greenhouse/Lever/Ashby board registry, the Bundesagentur v6 API, Arbeitnow and Adzuna. Scans ~494 open engineering roles across Berlin, Bayern and Amsterdam each morning. Two-stage LLM: a cheap scoring pass gates the more expensive generation pass, cutting token spend several-fold and removing the bias of one call both writing and grading a letter. Postgres-backed dedupe with fuzzy title matching. The final submit stays manual on purpose: the ATS apply APIs all require the employer's own key.",
+              "type": "string"
+            },
+            {
+              "id": "k5",
+              "name": "letterModel",
+              "value": "deepseek/deepseek-v4-flash",
+              "type": "string"
+            },
+            {
+              "id": "k7",
+              "name": "letterEffort",
+              "value": "low",
+              "type": "string"
+            },
+            {
+              "id": "k9",
+              "name": "letterTemperature",
+              "value": 0.4,
+              "type": "number"
+            },
+            {
+              "id": "cv",
+              "name": "cvText",
+              "value": "Your Name - AI Engineer\nCity, Country | +49 000 0000000 | you@example.com\n\nSUMMARY\nReplace this whole value with the plain-text version of your CV. The scoring and letter prompts read it verbatim, so keep it factual.\n\nEXPERIENCE\nJob Title, Company (MM/YYYY - present, Location)\n- Achievement with a number.\n\nSKILLS\nPython, TypeScript, ...\n\nEDUCATION\nDegree, University (YYYY)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -660,
+        380
+      ],
+      "notes": "Speculative outreach. Only published addresses are ever mailed."
+    },
+    {
+      "parameters": {
+        "jsCode": "const TARGETS = [{\"name\": \"Helsing\",\"token\": \"helsing\",\"ats\": \"greenhouse\",\"regions\": [\"bayern\",\"berlin\"],\"domain\": \"helsing.ai\"},{\"name\": \"Nebius\",\"token\": \"nebius\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\",\"berlin\"],\"domain\": \"nebius.com\"},{\"name\": \"Databricks\",\"token\": \"databricks\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\",\"bayern\",\"berlin\"],\"domain\": \"databricks.com\"},{\"name\": \"Isar Aerospace\",\"token\": \"isaraerospace\",\"ats\": \"greenhouse\",\"regions\": [\"bayern\"],\"domain\": \"isaraerospace.com\"},{\"name\": \"Adyen\",\"token\": \"adyen\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"adyen.com\"},{\"name\": \"Celonis\",\"token\": \"celonis\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\",\"bayern\"],\"domain\": \"celonis.com\"},{\"name\": \"Parloa\",\"token\": \"parloa\",\"ats\": \"greenhouse\",\"regions\": [\"bayern\",\"berlin\"],\"domain\": \"parloa.com\"},{\"name\": \"Doctolib\",\"token\": \"doctolib\",\"ats\": \"greenhouse\",\"regions\": [\"berlin\"],\"domain\": \"doctolib.de\"},{\"name\": \"HelloFresh\",\"token\": \"hellofresh\",\"ats\": \"greenhouse\",\"regions\": [\"berlin\"],\"domain\": \"hellofresh.de\"},{\"name\": \"Proxima Fusion\",\"token\": \"proxima-fusion\",\"ats\": \"ashby\",\"regions\": [\"bayern\"],\"domain\": \"proximafusion.com\"},{\"name\": \"IMC Trading\",\"token\": \"imc\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"imc.com\"},{\"name\": \"EGYM\",\"token\": \"egym\",\"ats\": \"ashby\",\"regions\": [\"bayern\"],\"domain\": \"egym.com\"},{\"name\": \"Xomnia\",\"token\": \"xomnia\",\"ats\": \"recruitee\",\"regions\": [\"amsterdam\"],\"domain\": \"xomnia.com\"},{\"name\": \"commercetools\",\"token\": \"commercetools\",\"ats\": \"greenhouse\",\"regions\": [\"bayern\",\"berlin\"],\"domain\": \"commercetools.com\"},{\"name\": \"GetYourGuide\",\"token\": \"getyourguide\",\"ats\": \"greenhouse\",\"regions\": [\"berlin\"],\"domain\": \"getyourguide.com\"},{\"name\": \"Flow Traders\",\"token\": \"flowtraders\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"flowtraders.com\"},{\"name\": \"Langdock\",\"token\": \"langdock\",\"ats\": \"ashby\",\"regions\": [\"berlin\"],\"domain\": \"langdock.com\"},{\"name\": \"Nelly\",\"token\": \"nelly\",\"ats\": \"ashby\",\"regions\": [\"berlin\"],\"domain\": \"getnelly.de\"},{\"name\": \"Budget Energie\",\"token\": \"budgetenergie\",\"ats\": \"recruitee\",\"regions\": [\"amsterdam\"],\"domain\": \"budgetenergie.com\"},{\"name\": \"CZ\",\"token\": \"cz\",\"ats\": \"recruitee\",\"regions\": [\"amsterdam\"],\"domain\": \"cz.com\"},{\"name\": \"Solaris\",\"token\": \"solarisbank\",\"ats\": \"greenhouse\",\"regions\": [\"berlin\"],\"domain\": \"solaris.com\"},{\"name\": \"Enpal\",\"token\": \"enpal\",\"ats\": \"ashby\",\"regions\": [\"berlin\"],\"domain\": \"enpal.de\"},{\"name\": \"Mollie\",\"token\": \"mollie\",\"ats\": \"ashby\",\"regions\": [\"amsterdam\"],\"domain\": \"mollie.com\"},{\"name\": \"n8n\",\"token\": \"n8n\",\"ats\": \"ashby\",\"regions\": [\"berlin\"],\"domain\": \"n8n.io\"},{\"name\": \"Staffbase\",\"token\": \"staffbase\",\"ats\": \"greenhouse\",\"regions\": [\"berlin\"],\"domain\": \"staffbase.com\"},{\"name\": \"Anthropic\",\"token\": \"anthropic\",\"ats\": \"greenhouse\",\"regions\": [\"bayern\"],\"domain\": \"anthropic.com\"},{\"name\": \"Catawiki\",\"token\": \"catawiki\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"catawiki.com\"},{\"name\": \"Marvel Fusion\",\"token\": \"marvelfusion\",\"ats\": \"greenhouse\",\"regions\": [\"bayern\"],\"domain\": \"marvelfusion.com\"},{\"name\": \"Scout24\",\"token\": \"scout24\",\"ats\": \"greenhouse\",\"regions\": [\"berlin\"],\"domain\": \"scout24.com\"},{\"name\": \"Tacto\",\"token\": \"tacto\",\"ats\": \"ashby\",\"regions\": [\"bayern\"],\"domain\": \"tacto.ai\"},{\"name\": \"funda\",\"token\": \"funda\",\"ats\": \"recruitee\",\"regions\": [\"amsterdam\"],\"domain\": \"funda.com\"},{\"name\": \"Aidence\",\"token\": \"aidence\",\"ats\": \"recruitee\",\"regions\": [\"amsterdam\"],\"domain\": \"aidence.com\"},{\"name\": \"Forto\",\"token\": \"forto\",\"ats\": \"ashby\",\"regions\": [\"berlin\"],\"domain\": \"forto.com\"},{\"name\": \"Moonfare\",\"token\": \"moonfare\",\"ats\": \"greenhouse\",\"regions\": [\"berlin\"],\"domain\": \"moonfare.com\"},{\"name\": \"OpenAI\",\"token\": \"openai\",\"ats\": \"ashby\",\"regions\": [\"bayern\"],\"domain\": \"openai.com\"},{\"name\": \"Raisin\",\"token\": \"raisin\",\"ats\": \"greenhouse\",\"regions\": [\"berlin\"],\"domain\": \"raisin.com\"},{\"name\": \"Upvest\",\"token\": \"upvest\",\"ats\": \"ashby\",\"regions\": [\"berlin\"],\"domain\": \"upvest.co\"},{\"name\": \"DEPT\",\"token\": \"dept\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"deptagency.com\"},{\"name\": \"Typeform\",\"token\": \"typeform\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"typeform.com\"},{\"name\": \"Zenjob\",\"token\": \"zenjob\",\"ats\": \"ashby\",\"regions\": [\"berlin\"],\"domain\": \"zenjob.com\"},{\"name\": \"True\",\"token\": \"true\",\"ats\": \"recruitee\",\"regions\": [\"amsterdam\"],\"domain\": \"true.com\"},{\"name\": \"Channable\",\"token\": \"channable\",\"ats\": \"recruitee\",\"regions\": [\"amsterdam\"],\"domain\": \"channable.com\"},{\"name\": \"Sensorfact\",\"token\": \"sensorfact\",\"ats\": \"ashby\",\"regions\": [\"amsterdam\"],\"domain\": \"sensorfact.com\"},{\"name\": \"Babbel\",\"token\": \"babbel\",\"ats\": \"ashby\",\"regions\": [\"berlin\"],\"domain\": \"babbel.com\"},{\"name\": \"GitLab\",\"token\": \"gitlab\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"gitlab.com\"},{\"name\": \"Vay\",\"token\": \"vay\",\"ats\": \"greenhouse\",\"regions\": [\"berlin\"],\"domain\": \"vay.io\"},{\"name\": \"Datadog\",\"token\": \"datadog\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"datadoghq.com\"},{\"name\": \"Polarsteps\",\"token\": \"polarsteps\",\"ats\": \"ashby\",\"regions\": [\"amsterdam\"],\"domain\": \"polarsteps.com\"},{\"name\": \"Dataiku\",\"token\": \"dataiku\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"dataiku.com\"},{\"name\": \"Elastic\",\"token\": \"elastic\",\"ats\": \"greenhouse\",\"regions\": [\"amsterdam\"],\"domain\": \"elastic.com\"},{\"name\": \"KONUX\",\"token\": \"konux\",\"ats\": \"greenhouse\",\"regions\": [\"bayern\"],\"domain\": \"konux.com\"},{\"name\": \"Luminovo\",\"token\": \"luminovo\",\"ats\": \"ashby\",\"regions\": [\"bayern\"],\"domain\": \"luminovo.ai\"},{\"name\": \"Bynder\",\"token\": \"bynder\",\"ats\": \"ashby\",\"regions\": [\"amsterdam\"],\"domain\": \"bynder.com\"},{\"name\": \"Cradle\",\"token\": \"cradlebio\",\"ats\": \"ashby\",\"regions\": [\"amsterdam\"],\"domain\": \"cradle.bio\"},{\"name\": \"Qonto\",\"token\": \"qonto\",\"ats\": \"lever\",\"regions\": [\"berlin\"],\"domain\": \"qonto.com\"}];\n// One item per (company x candidate path). A 404 is harmless - it simply yields no address.\nconst PATHS = ['/karriere', '/careers', '/jobs', '/impressum', '/contact'];\nconst out = [];\nfor (const t of TARGETS) {\n  for (const p of PATHS) {\n    out.push({ json: { ...t, url: 'https://' + t.domain + p } });\n  }\n}\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "target-pages",
+      "name": "Target Pages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 5,
+              "batchInterval": 800
+            }
+          },
+          "timeout": 12000,
+          "response": {
+            "response": {
+              "neverError": true,
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "fetch-page",
+      "name": "Fetch Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -220,
+        380
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Plain GET of the company's own public pages. Text response."
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst targets = $('Target Pages').all();\nconst inputs = $input.all();\n\n// Tiered. Best available tier per company wins, so one company gets at most one mail.\nconst TIERS = [\n  ['careers', /^(jobs|job|karriere|careers|career|bewerbung|bewerbungen|recruiting|recruitment|hiring|join|apply)@/i],\n  ['people',  /^(hr|people|talent|personal|personalabteilung|team)@/i],\n  ['general', /^(info|kontakt|contact|hello|hallo|office|mail|anfrage|welcome)@/i]\n];\n// Wrong desk or legally sensitive - never mailed regardless of tier settings.\nconst NEVER = /^(noreply|no-reply|donotreply|postmaster|abuse|support|sales|vertrieb|presse|press|media|datenschutz|privacy|legal|impressum|billing|invoice|accounting|webmaster|admin)@/i;\nconst JUNK = /(noreply|example\\.|\\.png|\\.jpg|wixpress|sentry)/i;\nconst MAILTO = /mailto:([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,24})/gi;\n\nconst allowed = new Set(cfg.addressTiers || ['careers']);\nconst best = new Map();   // company -> {meta, email, tier, rank}\n\nfor (let i = 0; i < inputs.length; i++) {\n  const meta = (targets[i] || {}).json || {};\n  if (!meta.name) continue;\n  const body = typeof inputs[i].json === 'string' ? inputs[i].json\n             : (inputs[i].json.data || inputs[i].json.body || '');\n  if (!body || typeof body !== 'string') continue;\n\n  const dom = String(meta.domain || '').replace(/^www\\./, '');\n  const root = dom.split('.').slice(-2).join('.');\n\n  let m; MAILTO.lastIndex = 0;\n  while ((m = MAILTO.exec(body)) !== null) {\n    const e = m[1].toLowerCase();\n    if (JUNK.test(e) || NEVER.test(e)) continue;\n    // Must belong to the company whose page we fetched, not a third party linked on it.\n    if (!(e.endsWith('@' + dom) || e.endsWith('@' + root) || e.endsWith('.' + root))) continue;\n\n    const idx = TIERS.findIndex(([, rx]) => rx.test(e));\n    if (idx < 0) continue;\n    const [tier] = TIERS[idx];\n    if (!allowed.has(tier)) continue;\n\n    const prev = best.get(meta.name);\n    if (!prev || idx < prev.rank) {\n      best.set(meta.name, { ...meta, contactEmail: e, tier, rank: idx, foundOn: meta.url });\n    }\n  }\n}\n\n// Harvest what the company says about itself from the SAME pages - no extra requests.\nconst txt = v => String(v || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ')\n  .replace(/&amp;/g, '&').replace(/&#(\\d+);/g, (mm, dd) => String.fromCharCode(+dd))\n  .replace(/\\s+/g, ' ').trim();\nconst profile = new Map();\nfor (let i = 0; i < inputs.length; i++) {\n  const meta = (targets[i] || {}).json || {};\n  if (!meta.name || !best.has(meta.name)) continue;\n  const body = typeof inputs[i].json === 'string' ? inputs[i].json\n             : (inputs[i].json.data || inputs[i].json.body || '');\n  if (!body || typeof body !== 'string') continue;\n  const bits = [];\n  const t = body.match(/<title[^>]*>([\\s\\S]{0,200}?)<\\/title>/i);\n  if (t) bits.push(txt(t[1]));\n  const d = body.match(/<meta[^>]+name=[\"']description[\"'][^>]+content=[\"']([^\"']{0,300})[\"']/i)\n        || body.match(/<meta[^>]+content=[\"']([^\"']{0,300})[\"'][^>]+name=[\"']description[\"']/i);\n  if (d) bits.push(txt(d[1]));\n  for (const h of (body.match(/<h[12][^>]*>([\\s\\S]{0,160}?)<\\/h[12]>/gi) || []).slice(0, 6)) {\n    const c = txt(h); if (c.length > 12) bits.push(c);\n  }\n  profile.set(meta.name, (profile.get(meta.name) || []).concat(bits));\n}\nreturn [...best.values()].map(v => ({ json: {\n  ...v, profileText: [...new Set(profile.get(v.name) || [])].join(' | ').slice(0, 900)\n} }));",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "extract-published-email",
+      "name": "Extract Published Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT lower(company) AS company FROM job_applications\nWHERE applied_at > now() - make_interval(days => $1)\n  AND status = 'sent';",
+        "options": {
+          "queryReplacement": "={{ $('Config').first().json.rememberDays }}"
+        }
+      },
+      "id": "load-contacted",
+      "name": "Load Contacted",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        220,
+        380
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Shared history with the daily workflow - never approach twice.",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst seen = new Set($('Load Contacted').all()\n  .map(r => String((r.json || {}).company || '').toLowerCase()).filter(Boolean));\nconst out = [];\nfor (const item of $('Extract Published Email').all()) {\n  const j = item.json;\n  if (seen.has(String(j.name).toLowerCase())) continue;   // already applied to a real role there\n  out.push({ json: { ...j, dedupeKey: String(j.name).toLowerCase().replace(/[^a-z0-9]+/g, '') + '|speculative' } });\n  if (out.length >= (cfg.maxPerRun || 5)) break;\n}\n// Never return nothing - the digest must still go out on a quiet run.\nreturn out.length ? out : [{ json: { noCandidates: true } }];",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "filter-new",
+      "name": "Filter New",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.ats === 'greenhouse' ? 'https://boards-api.greenhouse.io/v1/boards/' + $json.token + '/jobs' : $json.ats === 'lever' ? 'https://api.lever.co/v0/postings/' + $json.token + '?mode=json' : 'https://api.ashbyhq.com/posting-api/job-board/' + $json.token }}",
+        "options": {
+          "timeout": 20000,
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "batching": {
+            "batch": {
+              "batchSize": 5,
+              "batchInterval": 500
+            }
+          }
+        }
+      },
+      "id": "fetch-company-board",
+      "name": "Fetch Company Board",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        380
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "What they hire for says more than marketing copy."
+    },
+    {
+      "parameters": {
+        "jsCode": "// One board response per target, in order (fetched as text, so a Lever array can't split into\n// several items and shift the rest). board[i] belongs to the i-th target.\nconst targets = $('Has Targets?').all(0);\n\n// Which disciplines are growing, and which tech recurs in their own ad titles.\nconst DISC = {\n  'ML/AI': /\\b(ml|machine learning|ai|llm|nlp|computer vision|data scien|research)\\b/i,\n  'backend/platform': /\\b(backend|platform|infrastructure|sre|devops|cloud)\\b/i,\n  'data': /\\b(data engineer|analytics|data platform)\\b/i,\n  'frontend': /\\b(frontend|front-end|web|react)\\b/i,\n  'security': /\\b(security|iam|compliance)\\b/i\n};\n// Only engineering titles are useful context - their accounting and sales ads are noise here.\nconst ENGT = /\\b(engineer|engineering|developer|scientist|research|architect|ml|ai|llm|data|platform|infrastructure|backend|devops|sre)\\b/i;\nconst NOISE = /\\b(account executive|accountant|accounts payable|sales|marketing|recruiter|support specialist|office|legal|finance|payroll)\\b/i;\nconst TECH = /\\b(python|golang|rust|java|kotlin|typescript|react|kubernetes|aws|azure|gcp|spark|kafka|pytorch|tensorflow|llm|rag)\\b/gi;\n\nreturn $input.all().map((item, i) => {\n  const base = (targets[i] || {}).json || {};\n  let d = item.json || {};\n  if (typeof d.data === 'string') { try { d = JSON.parse(d.data); } catch (e) { d = {}; } }\n\n  let titles = [];\n  if (Array.isArray(d.jobs)) titles = d.jobs.map(j => j.title || '');\n  else if (Array.isArray(d)) titles = d.map(j => j.text || '');\n  titles = titles.filter(Boolean);\n\n  const disciplines = Object.entries(DISC)\n    .map(([k, rx]) => [k, titles.filter(t => rx.test(t)).length])\n    .filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]);\n  const engTitles = titles.filter(t => ENGT.test(t) && !NOISE.test(t));\n  const tech = [...new Set((titles.join(' ').match(TECH) || []).map(t => t.toLowerCase()))].slice(0, 8);\n\n  const brief = [\n    'Open roles on their board: ' + titles.length + ', of which ' + engTitles.length + ' engineering.',\n    disciplines.length ? 'Hiring concentrated in: '\n      + disciplines.slice(0, 3).map(([k, n]) => k + ' (' + n + ')').join(', ') + '.' : '',\n    tech.length ? 'Tech recurring in their own ad titles: ' + tech.join(', ') + '.' : '',\n    engTitles.length ? 'Relevant current openings: ' + engTitles.slice(0, 6).join('; ') + '.' : '',\n    base.profileText ? 'How they describe themselves: ' + base.profileText : ''\n  ].filter(Boolean).join(' ');\n\n  return { json: { ...base, openRoles: titles.length, engRoles: engTitles.length,\n    disciplines: disciplines.map(([k]) => k), companyBrief: brief } };\n});",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "summarise-company",
+      "name": "Summarise Company",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// All targets at once: Generate Outreach then runs the requests concurrently.\nreturn $input.all().map(({ json: j }) => {\n  const german = /\\.(de|at)$/.test(j.domain || '') || (j.regions || []).some(r => r === 'bayern' || r === 'berlin');\n  const lang = german ? 'German' : 'English';\n\n  const sys = [\n    'You write a speculative job application (Initiativbewerbung) from a software engineer.',\n    'Return STRICT JSON only: {\"subject\":\"...\",\"body\":\"...\"}',\n    'Write subject and body in ' + lang + '.',\n    'There is NO specific open role. Do not invent one or claim to have seen a posting.',\n    'The candidate built an agent pipeline that searches AI-engineering roles and drafted this mail.',\n    'State that in the first paragraph, plainly, as the reason for writing - not as an apology.',\n    'Second paragraph: what the system does, using ONLY the SYSTEM FACTS given. Name one concrete',\n    'engineering tradeoff and why it was made. A build description, not a feature list.',\n    'Third paragraph: why this company specifically, and ask whether an AI/ML engineering opening',\n    'exists or is planned. One clear, low-pressure ask.',\n    (j.tier === 'general'\n      ? 'This address is a GENERAL company inbox, not a recruiting one. Open with a single short '\n        + 'polite line asking whoever reads it to forward the mail to whoever handles engineering '\n        + 'hiring, then continue. Keep it brief and do not apologise at length.'\n      : j.tier === 'people'\n        ? 'This address reaches HR/People directly. Address them as such; no forwarding request needed.'\n        : 'This is a dedicated recruiting address. Write straight to the hiring team.'),\n    'HARD RULE: no claim of experience, tools or results absent from the CV or SYSTEM FACTS.',\n    'Tone: engineer to engineer. No hype, no \"passionate\", no \"excited\", no superlatives.',\n    'COMPANY-SPECIFIC, MANDATORY: use the COMPANY BRIEF below. Reference something concrete and true',\n    'of this company - the disciplines they are hiring into, tech recurring in their own ad titles,',\n    'or how they describe themselves. Two mails to two companies must share no sentence.',\n    'Never use wording that would fit any employer (\"innovative\", \"market leader\", \"exciting work\").',\n    'If the brief is thin, write less rather than padding. Do not invent products, funding,',\n    'customers or headcount the brief does not state.',\n    'Pick the ONE part of the pipeline most relevant to what they are hiring for, not all of it.',\n    'body: 200-280 words, plain text, no markdown.',\n    cfg.portfolioUrl\n      ? 'Sign off with name, phone, LinkedIn and the write-up link ' + cfg.portfolioUrl\n      : 'Sign off with name, phone and LinkedIn. Do NOT include any URL, repository or portfolio '\n        + 'link anywhere - none exists. Do not invent one and do not offer to send one.',\n    'Say a CV is attached.'\n  ].join(' ');\n\n  const usr = ['CV:', cfg.cvText, '',\n    'CONTACT: ' + cfg.myName + ', ' + cfg.myPhone + ', ' + cfg.myEmail + ', ' + cfg.myLinkedIn, '',\n    'COMPANY: ' + j.name + '  (' + j.domain + ')',\n    'Regions where they hire engineers: ' + (j.regions || []).join(', '), '',\n    'COMPANY BRIEF (only permitted source for claims about them):',\n    j.companyBrief || '(no detail retrieved - keep it short and do not speculate)', '',\n    'SYSTEM FACTS (only permitted source for pipeline claims):', cfg.showcaseFacts].join('\\n');\n\n  return { json: { ...j, lang, llmPayload: {\n    model: cfg.letterModel,\n    messages: [{ role: 'system', content: sys }, { role: 'user', content: usr }],\n    max_tokens: 2500,\n    temperature: Number(cfg.letterTemperature ?? 0.4),\n    reasoning: { effort: cfg.letterEffort || 'low' },\n    response_format: { type: 'json_object' } } } };\n});",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-outreach-prompt",
+      "name": "Build Outreach Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openRouterApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Title",
+              "value": "job-agent"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.llmPayload) }}",
+        "options": {
+          "timeout": 180000,
+          "batching": {
+            "batch": {
+              "batchSize": 4,
+              "batchInterval": 1000
+            }
+          }
+        }
+      },
+      "id": "generate-outreach",
+      "name": "Generate Outreach",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        380
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "OpenRouter. Outreach model."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Index-aligned with the HTTP node's output: one response per request, in order.\nconst jobs = $('Build Outreach Prompt').all();\n\nconst parse = txt => {\n  try { return JSON.parse(txt); } catch (e) {\n    const m = txt.match(/\\{[\\s\\S]*\\}/);\n    if (m) { try { return JSON.parse(m[0]); } catch (e2) {} }\n  }\n  return {};\n};\n\nreturn $input.all().map((item, i) => {\n  const base = { ...((jobs[i] || {}).json || {}) };\n  delete base.llmPayload;\n  const res = item.json || {};\n  let txt = ''; try { txt = res.choices[0].message.content || ''; } catch (e) {}\n  const p = parse(txt);\n  const letter = String(p.body || '').trim();\n  return { json: { ...base, letter, llmOk: letter.length > 120,\n    subject: String(p.subject || ('Initiativbewerbung - ' + base.name)).slice(0, 180) } };\n});",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "parse-outreach",
+      "name": "Parse Outreach",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "s1",
+              "leftValue": "={{ $json.llmOk }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "s2",
+              "leftValue": "={{ $json.contactEmail }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "s3",
+              "leftValue": "={{ $('Config').first().json.dryRun }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "send",
+      "name": "Send?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "amount": "={{ $json.gapSeconds }}",
+        "unit": "seconds"
+      },
+      "id": "jitter",
+      "name": "Send Gap",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2640,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $('Config').first().json.cvPath }}",
+        "options": {}
+      },
+      "id": "read-cv",
+      "name": "Read CV",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        2860,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "toRecipients": "={{ $('Send Loop').first().json.contactEmail }}",
+        "subject": "={{ $('Send Loop').first().json.subject }}",
+        "bodyContent": "={{ $('Send Loop').first().json.letter }}",
+        "additionalFields": {
+          "bodyContentType": "Text",
+          "replyTo": "={{ $('Config').first().json.myEmail }}",
+          "attachments": {
+            "attachments": [
+              {
+                "binaryPropertyName": "data"
+              }
+            ]
+          }
+        }
+      },
+      "id": "send-outreach",
+      "name": "Send Outreach",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        3080,
+        260
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Graph API + OAuth2. SMTP app passwords stopped working 30 Apr 2026."
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// Every target arrives once: from the send loop, from the \"not sent\" branch, or as the\n// \"nothing new\" sentinel. Only 'sent' suppresses a company on later runs (Load Contacted).\nconst statusOf = j => {\n  if (j.sendAttempted) return j.sendOk ? 'sent' : 'send_failed';\n  if (!j.llmOk) return 'letter_failed';\n  return cfg.dryRun ? 'dry_run' : 'queued';\n};\nconst out = [];\nfor (const { json: j } of $input.all()) {\n  if (j.noCandidates) continue;\n  const status = statusOf(j);\n  out.push({ json: { ...j, status, row: {\n    dedupe_key: j.dedupeKey, source: 'speculative', company: j.name,\n    title: 'Initiativbewerbung - AI Engineer', city: null, country: null,\n    region: (j.regions || []).join(','), url: j.foundOn || null,\n    contact_email: j.contactEmail || null, fit: null,\n    score_reason: j.sendError ? 'send failed: ' + j.sendError : null,\n    lang: j.lang || null, letter: j.letter || null, channel: 'speculative', status\n  } } });\n}\nif (!out.length) return [{ json: { noCandidates: true, status: 'none', row: {} } }];\nreturn out;",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "record",
+      "name": "Record",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2860,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO job_applications\n  (dedupe_key, source, company, title, city, country, region, url,\n   contact_email, fit, score_reason, lang, letter, channel, status)\nSELECT d.dedupe_key, d.source, d.company, d.title, d.city, d.country, d.region, d.url,\n       d.contact_email, d.fit, d.score_reason, d.lang, d.letter, d.channel, d.status\nFROM jsonb_to_record($1::jsonb) AS d(\n  dedupe_key text, source text, company text, title text, city text, country text,\n  region text, url text, contact_email text, fit int, score_reason text, lang text,\n  letter text, channel text, status text)\nWHERE d.dedupe_key IS NOT NULL\nON CONFLICT (dedupe_key) DO UPDATE\n  SET status = EXCLUDED.status, fit = EXCLUDED.fit, score_reason = EXCLUDED.score_reason,\n      lang = EXCLUDED.lang, channel = EXCLUDED.channel,\n      letter = COALESCE(EXCLUDED.letter, job_applications.letter),\n      contact_email = COALESCE(EXCLUDED.contact_email, job_applications.contact_email),\n      applied_at = now();",
+        "options": {
+          "queryReplacement": "={{ JSON.stringify($json.row) }}"
+        }
+      },
+      "id": "save",
+      "name": "Save",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3080,
+        620
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// Outcomes come from Record, not $input: this node's input is the Postgres INSERT result,\n// {success:true} per row, which carries none of the target fields.\nconst items = $('Record').all().map(i => i.json).filter(j => !j.noCandidates);\nconst saveErrors = $input.all().filter(i => i.json && i.json.error).length;\nconst failed = items.filter(i => i.status === 'send_failed');\nconst esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nconst scanned = $('Target Pages').all().length;\nconst withAddr = $('Extract Published Email').all().length;\nconst sent = items.filter(i => i.status === 'sent');\n\nconst card = j => `<div style=\"border:1px solid #e2e2e2;border-radius:8px;padding:14px;margin:0 0 14px;\">\n  <div style=\"font-size:16px;font-weight:600;\">${esc(j.name)}</div>\n  <div style=\"color:#555;\">${esc(j.contactEmail)} <span style=\"background:#eef;border-radius:3px;\n    padding:1px 5px;font-size:12px;\">${esc(j.tier)}</span> &middot; found on\n    <a href=\"${esc(j.foundOn)}\">${esc(j.foundOn)}</a> &middot; ${esc(j.lang)}</div>\n  ${j.sendError ? '<div style=\"color:#a00;font-size:13px;margin:6px 0;\"><b>Send failed:</b> '\n    + esc(j.sendError) + '</div>' : ''}\n  ${j.letter ? '<details><summary style=\"cursor:pointer;color:#0b57d0;\">Outreach mail</summary>'\n    + '<pre style=\"white-space:pre-wrap;font:13px/1.5 -apple-system,Segoe UI,sans-serif;'\n    + 'background:#fafafa;padding:10px;border-radius:6px;\">' + esc(j.letter) + '</pre></details>' : ''}\n</div>`;\n\nconst banner = cfg.dryRun ? '<div style=\"background:#fff4d6;border:1px solid #e8c766;padding:10px;'\n  + 'border-radius:6px;margin-bottom:16px;\"><b>DRY RUN</b> - nothing sent.</div>' : '';\n\nreturn [{ json: {\n  subject: '[Speculative] ' + items.length + ' contacted - ' + new Date().toISOString().slice(0, 10),\n  html: `<div style=\"font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;max-width:720px;margin:auto;\">\n    <h2 style=\"margin:0 0 4px;\">Speculative outreach</h2>\n    <p style=\"color:#666;\">${scanned} pages checked &middot; ${withAddr} published careers addresses found\n      &middot; ${items.length} approached &middot; ${sent.length} sent${failed.length\n      ? ' &middot; <b style=\"color:#a00;\">' + failed.length + ' failed to send</b>' : ''}${saveErrors\n      ? ' &middot; <b style=\"color:#a00;\">' + saveErrors + ' not saved to history</b>' : ''}</p>\n    ${banner}${items.map(card).join('')}\n    <p style=\"color:#888;font-size:12px;\">Only addresses published on the company's own pages are used.\n      Guessed patterns are never mailed - bounces would damage the sender reputation the daily\n      pipeline depends on.</p></div>` } }];",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "build-digest",
+      "name": "Build Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3300,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "toRecipients": "={{ $('Config').first().json.myEmail }}",
+        "subject": "={{ $json.subject }}",
+        "bodyContent": "={{ $json.html }}",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "id": "send-digest",
+      "name": "Send Digest",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        3520,
+        620
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "h1",
+              "leftValue": "={{ !$json.noCandidates }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "da655558-30eb-40a4-b36f-77247d303958",
+      "name": "Has Targets?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        660,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "numberInputs": 3
+      },
+      "id": "e4f5508c-37fb-498b-a2b8-9a6f69655e3f",
+      "name": "Merge Outcomes",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2640,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\n// Spacing between mails, not a delay before each one: the first goes immediately, each later\n// one waits a random lo..hi seconds after the previous. The old per-mail wait of up to\n// 25-40 MINUTES made a 3-mail run take over an hour. Under 65 s n8n also holds the wait in\n// memory instead of parking the whole execution in the database and resuming it.\nconst lo = Math.max(0, Number(cfg.sendGapMinSeconds ?? 20));\nconst hi = Math.max(lo, Number(cfg.sendGapMaxSeconds ?? 55));\nreturn $input.all().map((item, i) => ({ json: { ...item.json,\n  gapSeconds: i === 0 ? 0 : Math.round(lo + Math.random() * (hi - lo)) } }));"
+      },
+      "id": "3930c0d2-0a2f-441a-a262-50e8ad983a55",
+      "name": "Plan Sends",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "e1884e9a-72dc-4503-891f-837dfed03dff",
+      "name": "Send Loop",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2420,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Read CV replaces the item's JSON with file metadata, so the job comes from the loop itself.\nconst base = $('Send Loop').first().json;\nconst res = $input.first().json || {};\n// Graph returns {success:true}; SMTP returned messageId/accepted. Accept either.\nconst sendOk = res.success === true || !!res.messageId\n  || (Array.isArray(res.accepted) && res.accepted.length > 0);\nconst err = res.error ? (res.error.message || res.error.description || JSON.stringify(res.error)) : '';\nreturn [{ json: { ...base, sendAttempted: true, sendOk,\n  sendError: sendOk ? '' : String(err || 'no confirmation from the mail API').slice(0, 300) } }];"
+      },
+      "id": "3727f7b6-e77f-4ffc-89eb-1079d91bb4b5",
+      "name": "Mark Sent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3300,
+        260
+      ]
+    }
+  ],
+  "connections": {
+    "Weekly": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Now": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Target Pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target Pages": {
+      "main": [
+        [
+          {
+            "node": "Fetch Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Page": {
+      "main": [
+        [
+          {
+            "node": "Extract Published Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Published Email": {
+      "main": [
+        [
+          {
+            "node": "Load Contacted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Contacted": {
+      "main": [
+        [
+          {
+            "node": "Filter New",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter New": {
+      "main": [
+        [
+          {
+            "node": "Has Targets?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Targets?": {
+      "main": [
+        [
+          {
+            "node": "Fetch Company Board",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Outcomes",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Fetch Company Board": {
+      "main": [
+        [
+          {
+            "node": "Summarise Company",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarise Company": {
+      "main": [
+        [
+          {
+            "node": "Build Outreach Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Outreach Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Outreach",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Outreach": {
+      "main": [
+        [
+          {
+            "node": "Parse Outreach",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Outreach": {
+      "main": [
+        [
+          {
+            "node": "Send?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send?": {
+      "main": [
+        [
+          {
+            "node": "Plan Sends",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Outcomes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plan Sends": {
+      "main": [
+        [
+          {
+            "node": "Send Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Loop": {
+      "main": [
+        [
+          {
+            "node": "Merge Outcomes",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Send Gap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Gap": {
+      "main": [
+        [
+          {
+            "node": "Read CV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read CV": {
+      "main": [
+        [
+          {
+            "node": "Send Outreach",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Outreach": {
+      "main": [
+        [
+          {
+            "node": "Mark Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Sent": {
+      "main": [
+        [
+          {
+            "node": "Send Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Outcomes": {
+      "main": [
+        [
+          {
+            "node": "Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record": {
+      "main": [
+        [
+          {
+            "node": "Save",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save": {
+      "main": [
+        [
+          {
+            "node": "Build Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Digest": {
+      "main": [
+        [
+          {
+            "node": "Send Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true
+  },
+  "tags": []
+}

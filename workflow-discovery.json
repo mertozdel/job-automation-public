@@ -1,0 +1,394 @@
+{
+  "name": "Employer discovery (layer 3)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6,
+              "triggerAtMinute": 45
+            }
+          ]
+        }
+      },
+      "id": "c464ac2c-4917-4a89-9689-79f1a3ecf1a1",
+      "name": "Every Morning",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "2f154393-b92e-40eb-baa7-1c07a1abc2b2",
+      "name": "Run Now",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -440,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1",
+              "name": "regions",
+              "value": "={{ [\"berlin\",\"bayern\",\"amsterdam\"] }}",
+              "type": "array"
+            },
+            {
+              "id": "d2",
+              "name": "discoverBatch",
+              "value": 12,
+              "type": "number"
+            },
+            {
+              "id": "d3",
+              "name": "osmBatch",
+              "value": 8,
+              "type": "number"
+            },
+            {
+              "id": "d4",
+              "name": "discoverParallel",
+              "value": 4,
+              "type": "number"
+            },
+            {
+              "id": "d5",
+              "name": "maxAttempts",
+              "value": 3,
+              "type": "number"
+            },
+            {
+              "id": "d6",
+              "name": "retryAfterDays",
+              "value": 30,
+              "type": "number"
+            },
+            {
+              "id": "d7",
+              "name": "osmSeedWeekday",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "d8",
+              "name": "osmSeedNow",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "d9",
+              "name": "myEmail",
+              "value": "you@example.com",
+              "type": "string"
+            },
+            {
+              "id": "d10",
+              "name": "discoveryProxy",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6ba31b3e-22e6-4ade-9d8c-f99a28d32c23",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Smaller companies rarely post to the Bundesagentur, but many are on OpenStreetMap as\n// office=it WITH their website - which the resolver can read directly, no guessing.\n// Measured earlier: ~209 in Berlin and ~161 in München. Weekly, one Overpass query per area,\n// sequential: Overpass is a shared free service and rate-limits bursts.\n// OSM is skipped for Amsterdam on purpose: measured, 91 POIs, one recognisable tech employer.\nconst cfg = $('Config').first().json;\nconst H = (typeof helpers !== 'undefined' && helpers.httpRequest) ? helpers : (this && this.helpers);\nconst due = cfg.osmSeedNow === true || new Date().getDay() === Number(cfg.osmSeedWeekday ?? 1);\nif (!due) return [{ json: { rows: [], areas: 'not due' } }];\n\nconst AREAS = {   // south, west, north, east\n  berlin:    { region: 'berlin', bbox: '52.34,13.09,52.68,13.76' },\n  muenchen:  { region: 'bayern', bbox: '48.06,11.36,48.25,11.72' },\n  nuernberg: { region: 'bayern', bbox: '49.35,10.85,49.65,11.20' },   // incl. Fürth, Erlangen\n};\nconst want = new Set(cfg.regions || []);\nconst endpoint = cfg.overpassUrl || 'https://overpass-api.de/api/interpreter';\nconst proxy = cfg.discoveryProxy || '';\nconst norm = s => String(s || '').toLowerCase().replace(/ß/g, 'ss')\n  .normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();\nconst LEGAL = /\\b(gmbh|mbh|ag|se|kg|kgaa|co|ug|ohg|e v|ev|b v|bv|n v|nv|inc|llc|ltd|limited|plc|corp|corporation|sa|sas|sarl|srl|spa|holding|group|gruppe|deutschland|germany|netherlands|nederland|europe)\\b/g;\nconst coKey = s => norm(s).replace(LEGAL, ' ').replace(/\\s+/g, ' ').trim() || norm(s);\nconst rows = new Map();\nconst areas = {};\n// n8n kills a Code node after 5 minutes; stop starting new queries well before that.\nconst deadline = Date.now() + 200000;\nfor (const [key, a] of Object.entries(AREAS)) {\n  if (!want.has(a.region) || !(cfg.osmAreas || Object.keys(AREAS)).includes(key)) continue;\n  if (Date.now() > deadline) { areas[key] = 'skipped (time budget)'; continue; }\n  const q = `[out:json][timeout:60];nwr[\"office\"~\"^(it|software)$\"][\"name\"][\"website\"](${a.bbox});out tags center;`;\n  const url = endpoint + '?data=' + encodeURIComponent(q);\n  // Overpass rate-limits back-to-back queries from one address (seen live: the 2nd and 3rd area\n  // came back empty with a 2 s gap). Space them out and retry with backoff.\n  let got = null;\n  for (let attempt = 0; attempt < 3 && !got && Date.now() < deadline; attempt++) {\n    if (attempt) await new Promise(res => setTimeout(res, 15000 * attempt));\n    try {\n      const r = await H.httpRequest({ method: 'GET', url: proxy ? proxy + '?u=' + encodeURIComponent(url) : url,\n        headers: { 'User-Agent': 'job-automation/1.0 (personal job search; weekly)' },\n        timeout: Math.max(5000, Math.min(60000, deadline - Date.now())),\n        returnFullResponse: true, ignoreHttpStatusErrors: true, json: false });\n      if (r.statusCode === 200) got = typeof r.body === 'string' ? JSON.parse(r.body) : r.body;\n    } catch (e) { /* retried below */ }\n  }\n  let n = 0;\n  for (const e of (got && got.elements) || []) {\n    const t = e.tags || {};\n    const site = t.website || t['contact:website'];\n    if (!t.name || !site) continue;\n    const k = coKey(t.name);                                  // same key as the ad-sourced candidates\n    if (k && !rows.has(k)) { rows.set(k, { name: String(t.name).trim(), norm_name: k, website: site,\n                                           regions: [a.region], sources: ['osm'] }); n++; }\n  }\n  areas[key] = got ? n : 'failed';\n  await new Promise(res => setTimeout(res, 5000));\n}\nreturn [{ json: { rows: [...rows.values()], areas } }];"
+      },
+      "id": "92bb75f0-81a8-4b2f-a199-a8ff10552899",
+      "name": "Seed From OSM",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        120
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO employer_candidates (name, norm_name, regions, sources, website)\nSELECT c.name, c.norm_name, c.regions, c.sources, c.website\nFROM jsonb_to_recordset($1::jsonb)\n  AS c(name text, norm_name text, regions text[], sources text[], website text)\nWHERE c.norm_name IS NOT NULL AND c.norm_name <> ''\nON CONFLICT (norm_name) DO UPDATE SET\n  website = COALESCE(employer_candidates.website, EXCLUDED.website),\n  regions = ARRAY(SELECT DISTINCT unnest(employer_candidates.regions || EXCLUDED.regions)),\n  sources = ARRAY(SELECT DISTINCT unnest(employer_candidates.sources || EXCLUDED.sources));",
+        "options": {
+          "queryReplacement": "={{ [ JSON.stringify($json.rows || []) ] }}"
+        }
+      },
+      "id": "b367caca-9994-4dcd-92d8-9f059eb8ada5",
+      "name": "Save OSM Candidates",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        200,
+        120
+      ],
+      "onError": "continueRegularOutput",
+      "executeOnce": true,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT name FROM employers;",
+        "options": {}
+      },
+      "id": "22a21752-6d10-4fa8-b79c-dc54d89f3443",
+      "name": "Load Employers",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        420,
+        120
+      ],
+      "onError": "continueRegularOutput",
+      "executeOnce": true,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "(SELECT id, name, regions, website FROM employer_candidates\n  WHERE NOT ('osm' = ANY(sources))\n    AND (status = 'new' OR (status = 'not_found' AND attempts < $2::int\n         AND checked_at < now() - make_interval(days => $3::int)))\n  ORDER BY ads ASC, last_seen DESC LIMIT $1::int)\nUNION ALL\n(SELECT id, name, regions, website FROM employer_candidates\n  WHERE 'osm' = ANY(sources)\n    AND (status = 'new' OR (status = 'not_found' AND attempts < $2::int\n         AND checked_at < now() - make_interval(days => $3::int)))\n  ORDER BY random() LIMIT $4::int);",
+        "options": {
+          "queryReplacement": "={{ [ $('Config').first().json.discoverBatch, $('Config').first().json.maxAttempts, $('Config').first().json.retryAfterDays, $('Config').first().json.osmBatch ] }}"
+        }
+      },
+      "id": "2e64e173-6793-4a41-8d68-859d9a10277a",
+      "name": "Load Candidates",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        220,
+        300
+      ],
+      "onError": "continueRegularOutput",
+      "executeOnce": true,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Layer 3: turn employer NAMES (seen in Bundesagentur / Adzuna / Arbeitnow ads) into readable\n// careers feeds. Two routes, cheapest first:\n//   1. guess the board name on keyless ATS APIs (Greenhouse, Lever, Ashby, SmartRecruiters,\n//      Personio, Recruitee) - accepted only with jobs in our regions AND a matching company name\n//   2. guess the company's domain, confirm it by the page title, find the careers page and\n//      detect the system behind it (Workday, SuccessFactors, or any of the above)\n// Ad links are no help: measured 2026-09-24, 19% of Bundesagentur ads carry one and every\n// one pointed at an aggregator (gute-jobs.de, jobexport.de, get-in-it.de), never the employer.\nconst cfg = $('Config').first().json;\nconst H = (typeof helpers !== 'undefined' && helpers.httpRequest) ? helpers : (this && this.helpers);\nconst proxy = cfg.discoveryProxy || '';            // tests only: route every request via a mock\nconst UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36';\n\nasync function fetchRaw(url, { method = 'GET', body, accept = '*/*', timeout = 8000 } = {}) {\n  try {\n    const r = await H.httpRequest({\n      method, url: proxy ? proxy + '?u=' + encodeURIComponent(url) : url,\n      headers: { 'User-Agent': UA, Accept: accept, 'Accept-Language': 'de,en;q=0.8,nl;q=0.6',\n                 ...(body ? { 'Content-Type': 'application/json' } : {}) },\n      body: body ? JSON.stringify(body) : undefined,\n      timeout, returnFullResponse: true, ignoreHttpStatusErrors: true, json: false });\n    let b = r.body;\n    if (b && typeof b === 'object' && !(typeof Buffer !== 'undefined' && Buffer.isBuffer(b))) b = JSON.stringify(b);\n    return { status: r.statusCode, text: String(b == null ? '' : b) };\n  } catch (e) {\n    return { status: 0, text: '' };\n  }\n}\nasync function fetchJson(url, opts) {\n  const r = await fetchRaw(url, { accept: 'application/json', ...opts });\n  if (r.status !== 200) return null;\n  try { return JSON.parse(r.text); } catch (e) { return null; }\n}\n\n// --- names -------------------------------------------------------------------------------\nconst norm = s => String(s || '').toLowerCase().replace(/ß/g, 'ss')\n  .normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();\nconst LEGAL = /\\b(gmbh|mbh|ag|se|kg|kgaa|co|ug|ohg|e v|ev|b v|bv|n v|nv|inc|llc|ltd|limited|plc|corp|corporation|sa|sas|sarl|srl|spa|holding|group|gruppe|deutschland|germany|netherlands|nederland|europe)\\b/g;\nconst coKey = s => norm(s).replace(LEGAL, ' ').replace(/\\s+/g, ' ').trim() || norm(s);\nconst GENERIC = new Set(['digital', 'software', 'solutions', 'systems', 'system', 'consulting', 'services',\n  'service', 'tech', 'technology', 'technologies', 'data', 'it', 'media', 'bank', 'energy', 'engineering',\n  'management', 'partner', 'partners', 'international', 'global', 'the', 'und', 'and', 'of', 'de', 'ki',\n  'ai', 'innovation', 'innovations', 'labs', 'lab', 'studio', 'company', 'agentur', 'beratung', 'netz',\n  'informatik', 'network', 'networks', 'cloud', 'online', 'smart', 'mobile', 'web', 'health', 'medical']);\nconst tokens = s => coKey(s).split(' ').filter(t => t.length >= 3 && !GENERIC.has(t));\nconst nameMatch = (a, b) => { const B = new Set(tokens(b)); return tokens(a).some(t => B.has(t)); };\nfunction slugsFor(name) {\n  const w = coKey(name).split(' ').filter(Boolean);\n  const out = [w.join(''), w.join('-')];\n  if (w.length > 1 && w[0].length >= 5 && !GENERIC.has(w[0])) out.push(w[0]);\n  return [...new Set(out)].filter(s => s.length >= 3).slice(0, 3);\n}\n\n// --- regions ------------------------------------------------------------------------------\nconst RX = {\n  berlin:    /\\bberlin\\b/i,\n  bayern:    /\\b(m[uü]nchen|munich|n[uü]rnberg|nuremberg|bayern|bavaria|augsburg|erlangen|f[uü]rth|herzogenaurach|forchheim|ingolstadt|regensburg|w[uü]rzburg|bamberg|garching|unterf[oö]hring|unterschlei[sß]heim|ismaning)\\b/i,\n  amsterdam: /\\b(amsterdam|amstelveen|diemen|schiphol|utrecht|haarlem|hoofddorp|leiden|delft|hilversum|almere|netherlands|nederland|den haag|the hague|rotterdam|eindhoven)\\b/i\n};\nconst want = cfg.regions || ['berlin', 'bayern', 'amsterdam'];\nconst inRegion = locs => locs.filter(l => want.some(r => RX[r].test(l || ''))).length;\nconst COUNTRY = { berlin: 'de', bayern: 'de', amsterdam: 'nl' };\n\n// --- route 1: keyless ATS APIs, by board-name guess ---------------------------------------\nconst PROBES = {\n  async greenhouse(s) {\n    const d = await fetchJson(`https://boards-api.greenhouse.io/v1/boards/${s}/jobs`);\n    if (!d || !Array.isArray(d.jobs) || !d.jobs.length) return null;\n    const b = await fetchJson(`https://boards-api.greenhouse.io/v1/boards/${s}`);\n    return { total: d.jobs.length, local: inRegion(d.jobs.map(j => (j.location || {}).name)), boardName: (b || {}).name || '' };\n  },\n  async lever(s) {\n    const d = await fetchJson(`https://api.lever.co/v0/postings/${s}?mode=json`);\n    if (!Array.isArray(d) || !d.length) return null;\n    return { total: d.length, local: inRegion(d.map(j => (j.categories || {}).location)), boardName: '' };\n  },\n  async ashby(s) {\n    const d = await fetchJson(`https://api.ashbyhq.com/posting-api/job-board/${s}`);\n    if (!d || !Array.isArray(d.jobs) || !d.jobs.length) return null;\n    return { total: d.jobs.length, local: inRegion(d.jobs.map(j => j.location)), boardName: '' };\n  },\n  async smartrecruiters(s, countries) {\n    let total = 0, name = '';\n    for (const c of countries) {\n      const d = await fetchJson(`https://api.smartrecruiters.com/v1/companies/${s}/postings?limit=100&country=${c}`);\n      if (!d || !Array.isArray(d.content)) continue;\n      total += d.totalFound || d.content.length;\n      name = name || ((d.content[0] || {}).company || {}).name || '';\n    }\n    return total ? { total, local: total, boardName: name } : null;     // country-filtered server-side\n  },\n  async personio(s) {\n    let r = await fetchRaw(`https://${s}.jobs.personio.de/xml`);\n    if (r.status !== 200 || !r.text.includes('<position>')) r = await fetchRaw(`https://${s}.jobs.personio.com/xml`);\n    if (r.status !== 200 || !r.text.includes('<position>')) return null;\n    // count positions, not offices: one job with three offices is still one job\n    const pos = r.text.match(/<position>[\\s\\S]*?<\\/position>/g) || [];\n    const sub = (r.text.match(/<subcompany>([^<]*)<\\/subcompany>/) || [])[1] || '';\n    return { total: pos.length, boardName: sub,\n             local: inRegion(pos.map(p => (p.match(/<office>[^<]*<\\/office>/g) || []).join(' '))) };\n  },\n  async recruitee(s) {\n    const d = await fetchJson(`https://${s}.recruitee.com/api/offers/`);\n    if (!d || !Array.isArray(d.offers) || !d.offers.length) return null;\n    return { total: d.offers.length, local: inRegion(d.offers.map(o => [o.city, o.location, o.country].join(' '))),\n             boardName: (d.offers[0] || {}).company_name || '' };\n  },\n};\n\nasync function viaAtsGuess(name, countries) {\n  const slugs = slugsFor(name), full = slugs[0];\n  const tries = [];\n  for (const s of slugs) for (const [ats, probe] of Object.entries(PROBES)) tries.push({ s, ats, p: probe(s, countries) });\n  const results = await Promise.all(tries.map(async t => ({ ...t, r: await t.p })));\n  for (const t of results) {\n    if (!t.r || !t.r.local) continue;\n    // Board names like \"digital\" are shared by many companies: demand a name match, or the\n    // full-name slug on systems that don't expose a company name at all.\n    const ok = t.r.boardName ? nameMatch(name, t.r.boardName) : t.s === full;\n    if (ok) return { ats: t.ats, token: t.s, total: t.r.total, local: t.r.local, via: 'ats-guess' };\n  }\n  return null;\n}\n\n// --- route 2: the company's own site ------------------------------------------------------\n// No URL class in the Code-node sandbox (only Buffer, timers, btoa/atob, TextEncoder...).\nconst hostOf = u => (String(u).match(/^https?:\\/\\/([^/:?#]+)/i) || [])[1] || '';\nconst absUrl = (h, base) => /^https?:\\/\\//i.test(h) ? h : h.startsWith('//') ? 'https:' + h\n  : h.startsWith('/') ? (base.match(/^https?:\\/\\/[^/]+/) || [''])[0] + h : base.replace(/[^/]*$/, '') + h;\nconst CAREER_HREF = /href=\"([^\"#]*?(?:karriere|career|jobs|stellen|vacatures|werken-bij|join)[^\"#]*)\"/gi;\nasync function detectOnPage(html, pageUrl) {\n  let m;\n  if ((m = html.match(/https:\\/\\/([\\w-]+)\\.(wd\\d+)\\.myworkdayjobs\\.com\\/(?:[a-z]{2}-[A-Z]{2}\\/)?([\\w-]+)/)))\n    return { ats: 'workday', token: `${m[1]}|${m[2]}|${m[3]}` };\n  // the same system on its other domain: wd3.myworkdaysite.com/recruiting/<tenant>/<site>\n  if ((m = html.match(/https:\\/\\/(wd\\d+)\\.myworkdaysite\\.com\\/(?:[a-z]{2}-[A-Z]{2}\\/)?recruiting\\/([\\w-]+)\\/([\\w-]+)/)))\n    return { ats: 'workday', token: `${m[2]}|${m[1]}|${m[3]}` };\n  if ((m = html.match(/([\\w-]+)\\.jobs\\.personio\\.(?:de|com)/))) return { ats: 'personio', token: m[1] };\n  if ((m = html.match(/(?:boards|job-boards)\\.greenhouse\\.io\\/(?:embed\\/job_board\\?for=)?([\\w-]+)/))) return { ats: 'greenhouse', token: m[1] };\n  if ((m = html.match(/jobs\\.lever\\.co\\/([\\w-]+)/))) return { ats: 'lever', token: m[1] };\n  if ((m = html.match(/jobs\\.ashbyhq\\.com\\/([\\w-]+)/))) return { ats: 'ashby', token: m[1] };\n  if ((m = html.match(/(?:jobs|careers)\\.smartrecruiters\\.com\\/([\\w-]+)/))) return { ats: 'smartrecruiters', token: m[1] };\n  if ((m = html.match(/https?:\\/\\/([\\w-]+)\\.recruitee\\.com/))) return { ats: 'recruitee', token: m[1] };\n  // SuccessFactors career sites live on their own host (jobs.x.com, careers.x.de): try its RSS.\n  const hosts = new Set([...html.matchAll(/https:\\/\\/((?:jobs|careers|karriere)\\.[\\w.-]+\\.(?:com|de|nl|eu))/g)].map(x => x[1]));\n  const h0 = hostOf(pageUrl); if (/^(jobs|careers|karriere)\\./.test(h0)) hosts.add(h0);\n  for (const h of [...hosts].slice(0, 3)) {\n    const r = await fetchRaw(`https://${h}/services/rss/job/?locale=de_DE&keywords=a`);\n    if (r.status === 200 && r.text.includes('<item>')) return { ats: 'successfactors', token: `https://${h}` };\n  }\n  return null;\n}\nasync function verify(found, countries) {\n  if (found.ats === 'workday') {\n    const [t, w, s] = found.token.split('|');\n    const d = await fetchJson(`https://${t}.${w}.myworkdayjobs.com/wday/cxs/${t}/${s}/jobs`,\n      { method: 'POST', body: { appliedFacets: {}, limit: 1, offset: 0, searchText: '' } });\n    return d && d.total ? { total: d.total, local: null } : null;\n  }\n  if (found.ats === 'successfactors') return { total: 1, local: null };      // RSS already checked\n  const r = await PROBES[found.ats](found.token, countries);\n  return r && r.total ? { total: r.total, local: r.local } : null;\n}\n// Scan a confirmed company site: its home page plus up to three careers pages it links to.\nasync function scanSite(home, homeHtml, countries) {\n  const pages = [[home, homeHtml]];\n  const links = [...homeHtml.matchAll(CAREER_HREF)].map(x => absUrl(x[1].replace(/&amp;/g, '&'), home))\n    .filter(u => /^https?:/.test(u));\n  for (const u of [...new Set(links)].slice(0, 3)) {\n    const p = await fetchRaw(u, { timeout: 7000 });\n    if (p.status === 200) pages.push([u, p.text]);\n  }\n  for (const [u, html] of pages) {\n    const found = await detectOnPage(html, u);\n    if (!found) continue;\n    const v = await verify(found, countries);\n    if (v) return { ...found, total: v.total, local: v.local, via: 'website ' + home };\n  }\n  return { none: true, via: 'website ' + home };                  // right company, unreadable system\n}\n// Name only: guess the domain, and accept it only if the page title names the company.\nasync function viaWebsite(name, countries) {\n  const slugs = slugsFor(name).slice(0, 2);\n  const tlds = countries.includes('nl') ? ['nl', 'com'] : ['de', 'com'];\n  const want = tokens(name);\n  if (!want.length) return null;\n  for (const s of slugs) for (const tld of tlds) {\n    const home = `https://www.${s}.${tld}`;\n    const r = await fetchRaw(home, { timeout: 7000 });\n    if (r.status !== 200 || r.text.length < 500) continue;\n    const title = norm(((r.text.match(/<title[^>]*>([^<]*)</i) || [])[1] || '') + ' ' +\n                       ((r.text.match(/og:site_name\"\\s+content=\"([^\"]*)\"/i) || [])[1] || ''));\n    if (!want.some(t => title.includes(t))) continue;              // a parked or unrelated domain\n    return scanSite(home, r.text, countries);\n  }\n  return null;\n}\n// Website already known (OpenStreetMap lists it): no guessing, no title check needed.\nasync function viaKnownSite(website, countries) {\n  let home = String(website).trim();\n  if (!/^https?:\\/\\//i.test(home)) home = 'https://' + home.replace(/^\\/+/, '');\n  const r = await fetchRaw(home, { timeout: 8000 });\n  if (r.status !== 200 || r.text.length < 300) return null;\n  return scanSite(home, r.text, countries);\n}\n\n// --- run ----------------------------------------------------------------------------------\nconst known = new Set($('Load Employers').all().map(i => coKey((i.json || {}).name)).filter(Boolean));\nconst cands = $('Load Candidates').all().map(i => i.json).filter(c => c && c.id && c.name);\nasync function resolve(c) {\n  const regions = (Array.isArray(c.regions) ? c.regions : String(c.regions || '').replace(/[{}]/g, '').split(','))\n    .filter(r => want.includes(r));\n  const countries = [...new Set(regions.map(r => COUNTRY[r]).filter(Boolean))];\n  const cc = countries.length ? countries : ['de'];\n  if (known.has(coKey(c.name))) return { ...c, status: 'skipped', note: 'already watched' };\n  // A known website is the most precise route: small companies link their Personio or\n  // Greenhouse board right there.\n  if (c.website) {\n    const k = await viaKnownSite(c.website, cc);\n    if (k && !k.none) return { ...c, status: 'found', ...k, regions };\n    const a = tokens(c.name).length ? await viaAtsGuess(c.name, cc) : null;\n    if (a) return { ...c, status: 'found', ...a, regions };\n    return { ...c, status: 'not_found', note: k ? 'site found, no readable job system (' + k.via + ')' : 'website did not load' };\n  }\n  if (!tokens(c.name).length) return { ...c, status: 'not_found', note: 'name too generic to guess' };\n  const a = await viaAtsGuess(c.name, cc);\n  if (a) return { ...c, status: 'found', ...a, regions };\n  const w = await viaWebsite(c.name, cc);\n  if (w && !w.none) return { ...c, status: 'found', ...w, regions };\n  return { ...c, status: 'not_found', note: w ? 'site found, no readable job system (' + w.via + ')' : 'no board or site found' };\n}\n// A few companies at a time: each fans out to ~20 requests, and the Code node has 5 minutes.\n// n8n kills a Code node after 5 minutes: stop starting new companies after 3.5. The rest stay\n// 'new' in the database and simply come up again on the next run.\nconst deadline = Date.now() + 210000;\nconst out = [];\nconst par = Math.max(1, Number(cfg.discoverParallel) || 4);\nfor (let i = 0; i < cands.length && Date.now() < deadline; i += par) {\n  out.push(...await Promise.all(cands.slice(i, i + par).map(resolve)));\n}\nreturn out.map(json => ({ json }));"
+      },
+      "id": "d5a7ab34-aba1-4d7e-992e-5ec7acb20d84",
+      "name": "Resolve Employers",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// One item for the SQL below: Postgres runs a query once per input item.\nconst rows = $input.all().map(i => i.json).filter(r => r && r.id).map(r => ({\n  id: r.id, name: r.name, status: r.status, ats: r.ats || null, token: r.token || null,\n  regions: r.regions || [], note: (r.note || r.via || '').slice(0, 300) || null }));\nreturn rows.length ? [{ json: { rows } }] : [];"
+      },
+      "id": "43e0af9a-555b-49fe-8dc6-9eaee7b2646a",
+      "name": "Collect Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "WITH r AS (\n  SELECT * FROM jsonb_to_recordset($1::jsonb)\n    AS r(id bigint, name text, status text, ats text, token text, regions text[], note text)\n), upd AS (\n  UPDATE employer_candidates c\n     SET status = r.status, attempts = c.attempts + 1, checked_at = now(), note = r.note\n    FROM r WHERE c.id = r.id\n  RETURNING c.id\n)\nINSERT INTO employers (name, ats, token, regions, source)\nSELECT r.name, r.ats, r.token, r.regions, 'discovered' FROM r\n WHERE r.status = 'found' AND r.ats IS NOT NULL AND r.token IS NOT NULL AND cardinality(r.regions) > 0\nON CONFLICT (ats, token) DO NOTHING\nRETURNING name, ats, token;",
+        "options": {
+          "queryReplacement": "={{ [ JSON.stringify($json.rows) ] }}"
+        }
+      },
+      "id": "2e018462-b602-4c3b-bede-67df12c6e4ab",
+      "name": "Save Discovery",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        880,
+        300
+      ],
+      "onError": "continueRegularOutput",
+      "executeOnce": true,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Config').first().json;\nconst esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nconst day = new Date().toISOString().slice(0, 10);\nconst res = $('Resolve Employers').all().map(i => i.json);\nconst out = $input.all().map(i => i.json || {});\nconst saveError = out.some(r => r.error);\nconst inserted = out.filter(r => r.ats);\nconst found = res.filter(r => r.status === 'found');\n// Weekly OpenStreetMap refresh: per-area counts, so a failing area is visible, not silent.\nconst areas = (($('Seed From OSM').first() || {}).json || {}).areas;\nconst osmFailed = areas && typeof areas === 'object' && Object.values(areas).some(v => typeof v !== 'number');\nconst osmLine = areas && typeof areas === 'object'\n  ? '<p style=\"color:#666;\">OpenStreetMap refresh: ' + esc(Object.entries(areas).map(([k, v]) => k + ' ' + v).join(', ')) + '</p>' : '';\n// Mail only when there is something to look at.\nif (!found.length && !saveError && !osmFailed) return [];\nconst count = s => res.filter(r => r.status === s).length;\nconst rows = found.map(r => '<tr><td>' + esc(r.name) + '</td><td>' + esc(r.ats) + '</td><td><code>'\n  + esc(r.token) + '</code></td><td>' + esc((r.regions || []).join(', ')) + '</td><td>'\n  + esc(r.local == null ? '?' : r.local) + ' / ' + esc(r.total) + '</td><td style=\"color:#888;\">'\n  + esc(r.via) + '</td></tr>').join('');\nconst html = `<div style=\"font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;max-width:820px;margin:auto;\">\n  <h2 style=\"margin:0 0 4px;\">Employer discovery - ${day}</h2>\n  <p style=\"color:#666;\">${res.length} checked &middot; ${found.length} found &middot; ${count('not_found')} not found\n    &middot; ${count('skipped')} already watched</p>\n  ${osmLine}${saveError ? '<div style=\"background:#ffe8e8;border:1px solid #e88;padding:10px;border-radius:6px;\">'\n    + '<b>Saving failed</b> - nothing was added to the watchlist. Check the Postgres credential.</div>' : ''}\n  <table style=\"border-collapse:collapse;font-size:13px;\" cellpadding=\"6\" border=\"1\">\n    <tr style=\"background:#f4f4f4;\"><th>Employer</th><th>System</th><th>Token</th><th>Regions</th>\n      <th>Jobs in region / total</th><th>How found</th></tr>${rows}</table>\n  <p style=\"color:#888;font-size:12px;\">${inserted.length} added to <code>employers</code>; tomorrow's job run\n    reads them. Wrong match? <code>UPDATE employers SET active = false WHERE name = '...';</code></p></div>`;\nreturn [{ json: { subject: `[Discovery] ${inserted.length} new employer(s) watched - ${day}`, html } }];"
+      },
+      "id": "f5b1ec43-52ff-4a9d-b9fb-cba0b5698683",
+      "name": "Build Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "toRecipients": "={{ $('Config').first().json.myEmail }}",
+        "subject": "={{ $json.subject }}",
+        "bodyContent": "={{ $json.html }}",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "id": "694bc1f7-3258-461b-8d61-432ef3e2e784",
+      "name": "Send Report",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        300
+      ],
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "Every Morning": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Now": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Seed From OSM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seed From OSM": {
+      "main": [
+        [
+          {
+            "node": "Save OSM Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save OSM Candidates": {
+      "main": [
+        [
+          {
+            "node": "Load Employers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Employers": {
+      "main": [
+        [
+          {
+            "node": "Load Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Candidates": {
+      "main": [
+        [
+          {
+            "node": "Resolve Employers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resolve Employers": {
+      "main": [
+        [
+          {
+            "node": "Collect Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect Results": {
+      "main": [
+        [
+          {
+            "node": "Save Discovery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Discovery": {
+      "main": [
+        [
+          {
+            "node": "Build Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Report": {
+      "main": [
+        [
+          {
+            "node": "Send Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true
+  }
+}

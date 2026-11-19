@@ -1,0 +1,16 @@
+# Never commit the real key
+.env
+
+# CV is personal
+cv/*.pdf
+
+# Derived, regenerated from the workflow JSON
+js-check/
+
+# Editable CV source (personal data) and pre-change backups
+cv/source/
+archive/
+exports/
+
+# Job list UI dependencies (npm install --prefix ui)
+ui/node_modules/
